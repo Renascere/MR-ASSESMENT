@@ -1,0 +1,1874 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CIS Assessment — Perfil Comportamental</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d0d0f;
+    --bg2: #131316;
+    --bg3: #1a1a1f;
+    --border: rgba(255,255,255,0.08);
+    --border2: rgba(255,255,255,0.14);
+    --text: #f0ede8;
+    --muted: rgba(240,237,232,0.5);
+    --accent: #c9a96e;
+    --accent2: #8b6a3e;
+    --disc-d: #c0392b;
+    --disc-i: #e67e22;
+    --disc-s: #27ae60;
+    --disc-c: #2980b9;
+    --jung-e: #8e44ad;
+    --jung-i: #2c3e50;
+    --jung-s: #16a085;
+    --jung-n: #d35400;
+    --jung-t: #2980b9;
+    --jung-f: #c0392b;
+    --jung-j: #27ae60;
+    --jung-p: #f39c12;
+    --val-r: #e74c3c;
+    --val-t: #3498db;
+    --val-e: #f39c12;
+    --val-s: #2ecc71;
+    --val-po: #9b59b6;
+    --val-re: #1abc9c;
+    --love-w: #e84393;
+    --love-a: #ff6b35;
+    --love-g: #ffd700;
+    --love-t: #00bcd4;
+    --love-p: #7c4dff;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  .grain {
+    position: fixed; inset: 0; pointer-events: none; z-index: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    opacity: 0.4;
+  }
+
+  .page { position: relative; z-index: 1; }
+
+  /* ===== HEADER ===== */
+  .header {
+    text-align: center;
+    padding: 4rem 2rem 3rem;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+  }
+  .header::before {
+    content: '';
+    position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+    width: 1px; height: 60px;
+    background: linear-gradient(to bottom, transparent, var(--accent));
+  }
+  .logo-tag {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px; letter-spacing: 4px; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 1.2rem; opacity: 0.85;
+  }
+  .header h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.2rem, 5vw, 3.8rem);
+    font-weight: 300; letter-spacing: -0.02em; line-height: 1.1;
+    color: var(--text); margin-bottom: 1rem;
+  }
+  .header h1 em { font-style: italic; color: var(--accent); }
+  .header p {
+    font-size: 14px; color: var(--muted); max-width: 520px;
+    margin: 0 auto; line-height: 1.7;
+  }
+  .theories-bar {
+    display: flex; flex-wrap: wrap; justify-content: center;
+    gap: 8px; margin-top: 2rem;
+  }
+  .theory-badge {
+    font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
+    padding: 5px 14px; border: 1px solid var(--border2);
+    border-radius: 20px; color: var(--muted);
+  }
+
+  /* ===== PROGRESS ===== */
+  .progress-bar-outer {
+    position: sticky; top: 0; z-index: 100;
+    background: var(--bg); border-bottom: 1px solid var(--border);
+    padding: 0.8rem 2rem;
+    display: flex; align-items: center; gap: 16px;
+  }
+  .progress-info { font-size: 12px; color: var(--muted); white-space: nowrap; }
+  .progress-track {
+    flex: 1; height: 2px; background: var(--border2);
+    border-radius: 2px; overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%; background: linear-gradient(90deg, var(--accent2), var(--accent));
+    border-radius: 2px; transition: width 0.4s ease;
+  }
+  .section-dots {
+    display: flex; gap: 6px;
+  }
+  .sdot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--border2); transition: background 0.3s;
+  }
+  .sdot.active { background: var(--accent); }
+  .sdot.done { background: var(--accent2); }
+
+  /* ===== SECTIONS ===== */
+  .section {
+    display: none; padding: 2.5rem 1rem; max-width: 860px;
+    margin: 0 auto; animation: fadeIn 0.4s ease;
+  }
+  .section.active { display: block; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+
+  .section-header {
+    margin-bottom: 2rem; padding-bottom: 1.2rem;
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; gap: 16px;
+  }
+  .section-icon {
+    width: 44px; height: 44px; border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px; flex-shrink: 0;
+  }
+  .section-meta { flex: 1; }
+  .section-num { font-size: 10px; letter-spacing: 3px; color: var(--accent); text-transform: uppercase; }
+  .section-title { font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; font-weight: 400; }
+  .section-desc { font-size: 13px; color: var(--muted); line-height: 1.6; margin-top: 4px; }
+
+  /* ===== QUESTIONS ===== */
+  .question-block {
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: 12px; padding: 1.5rem; margin-bottom: 1.2rem;
+    transition: border-color 0.2s;
+  }
+  .question-block.answered { border-color: var(--accent2); }
+  .question-text {
+    font-size: 15px; line-height: 1.65; margin-bottom: 1.2rem;
+    color: var(--text);
+  }
+  .q-num { color: var(--accent); font-size: 12px; margin-right: 8px; }
+
+  /* Scale questions */
+  .scale-row {
+    display: flex; align-items: center; gap: 10px;
+  }
+  .scale-label { font-size: 11px; color: var(--muted); width: 90px; }
+  .scale-label.right { text-align: right; }
+  .scale-options { display: flex; gap: 8px; flex: 1; justify-content: center; }
+  .scale-btn {
+    width: 38px; height: 38px; border-radius: 50%;
+    border: 1px solid var(--border2); background: transparent;
+    color: var(--muted); font-size: 13px; cursor: pointer;
+    transition: all 0.2s; font-family: 'DM Sans', sans-serif;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .scale-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .scale-btn.selected { background: var(--accent); border-color: var(--accent); color: var(--bg); font-weight: 500; }
+
+  /* Rank questions */
+  .rank-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .rank-option {
+    background: var(--bg3); border: 1px solid var(--border);
+    border-radius: 8px; padding: 10px 14px;
+    font-size: 13px; cursor: pointer;
+    display: flex; align-items: center; gap: 10px;
+    transition: all 0.2s; color: var(--text);
+  }
+  .rank-option:hover { border-color: var(--accent2); }
+  .rank-option.selected { border-color: var(--accent); background: rgba(201,169,110,0.08); }
+  .rank-badge {
+    width: 22px; height: 22px; border-radius: 6px;
+    background: var(--border2); display: flex; align-items: center;
+    justify-content: center; font-size: 11px; font-weight: 500; flex-shrink: 0;
+    transition: all 0.2s;
+  }
+  .rank-option.selected .rank-badge { background: var(--accent); color: var(--bg); }
+
+  /* Multi choice */
+  .multi-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .multi-opt {
+    background: var(--bg3); border: 1px solid var(--border);
+    border-radius: 8px; padding: 10px 14px;
+    font-size: 13px; cursor: pointer; color: var(--text);
+    transition: all 0.2s; display: flex; align-items: flex-start; gap: 10px;
+  }
+  .multi-opt:hover { border-color: var(--accent2); }
+  .multi-opt.selected { border-color: var(--accent); background: rgba(201,169,110,0.08); }
+  .multi-check {
+    width: 18px; height: 18px; border-radius: 5px; flex-shrink: 0;
+    border: 1px solid var(--border2); margin-top: 1px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; transition: all 0.2s;
+  }
+  .multi-opt.selected .multi-check { background: var(--accent); border-color: var(--accent); color: var(--bg); }
+
+  /* ===== NAVIGATION ===== */
+  .nav-bar {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1.5rem 1rem 3rem; max-width: 860px; margin: 0 auto;
+  }
+  .btn {
+    font-family: 'DM Sans', sans-serif;
+    padding: 12px 28px; border-radius: 8px; font-size: 14px;
+    cursor: pointer; transition: all 0.2s; letter-spacing: 0.3px;
+  }
+  .btn-outline {
+    background: transparent; border: 1px solid var(--border2); color: var(--muted);
+  }
+  .btn-outline:hover { border-color: var(--accent2); color: var(--text); }
+  .btn-primary {
+    background: var(--accent); border: none; color: var(--bg); font-weight: 500;
+  }
+  .btn-primary:hover { background: #d4b07a; transform: translateY(-1px); }
+  .btn-primary:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+
+  /* ===== INTRO ===== */
+  .intro-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 16px; margin: 2.5rem 0;
+  }
+  .intro-card {
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: 12px; padding: 1.4rem;
+  }
+  .intro-card-icon { font-size: 24px; margin-bottom: 10px; }
+  .intro-card-title { font-size: 13px; font-weight: 500; margin-bottom: 6px; }
+  .intro-card-desc { font-size: 12px; color: var(--muted); line-height: 1.6; }
+
+  .name-input-wrap { max-width: 400px; margin: 2rem auto; }
+  .name-input-wrap label { display: block; font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: var(--accent); margin-bottom: 10px; }
+  .name-input {
+    width: 100%; padding: 14px 16px;
+    background: var(--bg2); border: 1px solid var(--border2);
+    border-radius: 8px; color: var(--text); font-family: 'DM Sans', sans-serif;
+    font-size: 15px; outline: none; transition: border-color 0.2s;
+  }
+  .name-input:focus { border-color: var(--accent); }
+
+  /* ===== RESULTS ===== */
+  #results { display: none; padding: 2rem 1rem 4rem; max-width: 980px; margin: 0 auto; }
+  #results.active { display: block; animation: fadeIn 0.5s ease; }
+
+  .results-hero {
+    text-align: center; padding: 3rem 1rem 2rem;
+    border-bottom: 1px solid var(--border); margin-bottom: 3rem;
+  }
+  .results-hero .logo-tag { margin-bottom: 1rem; }
+  .results-hero h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 300;
+  }
+  .results-hero .person-name { color: var(--accent); }
+  .profile-archetype {
+    display: inline-block; margin-top: 1.5rem;
+    padding: 10px 28px; border: 1px solid var(--accent2);
+    border-radius: 30px; font-size: 13px; letter-spacing: 1px;
+    color: var(--accent);
+  }
+
+  .results-section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.6rem; font-weight: 400;
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 1.5rem; padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .results-section-title .tag {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--accent); padding: 4px 12px; border: 1px solid var(--border2);
+    border-radius: 20px;
+  }
+
+  .results-block { margin-bottom: 3rem; }
+
+  /* DISC bars */
+  .disc-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 1.5rem; }
+  .disc-card {
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: 12px; padding: 1.2rem; position: relative; overflow: hidden;
+  }
+  .disc-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  }
+  .disc-card.D::before { background: var(--disc-d); }
+  .disc-card.I::before { background: var(--disc-i); }
+  .disc-card.S::before { background: var(--disc-s); }
+  .disc-card.C::before { background: var(--disc-c); }
+  .disc-letter { font-family: 'Cormorant Garamond', serif; font-size: 3rem; font-weight: 300; line-height: 1; margin-bottom: 4px; }
+  .disc-card.D .disc-letter { color: var(--disc-d); }
+  .disc-card.I .disc-letter { color: var(--disc-i); }
+  .disc-card.S .disc-letter { color: var(--disc-s); }
+  .disc-card.C .disc-letter { color: var(--disc-c); }
+  .disc-name { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+  .disc-bar-track { height: 4px; background: var(--border2); border-radius: 2px; margin-bottom: 8px; }
+  .disc-bar-fill { height: 100%; border-radius: 2px; transition: width 1s ease; }
+  .disc-card.D .disc-bar-fill { background: var(--disc-d); }
+  .disc-card.I .disc-bar-fill { background: var(--disc-i); }
+  .disc-card.S .disc-bar-fill { background: var(--disc-s); }
+  .disc-card.C .disc-bar-fill { background: var(--disc-c); }
+  .disc-score { font-size: 22px; font-weight: 500; }
+  .disc-desc { font-size: 12px; color: var(--muted); line-height: 1.5; margin-top: 8px; }
+
+  /* Jung */
+  .jung-pairs { display: flex; flex-direction: column; gap: 16px; }
+  .jung-pair {
+    background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; padding: 1.2rem;
+  }
+  .jung-pair-row {
+    display: flex; align-items: center; gap: 12px;
+  }
+  .jung-pole { width: 80px; font-size: 12px; font-weight: 500; }
+  .jung-pole.right { text-align: right; }
+  .jung-slider-track { flex: 1; height: 8px; background: var(--border2); border-radius: 4px; position: relative; }
+  .jung-slider-fill { height: 100%; border-radius: 4px; position: absolute; }
+  .jung-marker { position: absolute; width: 16px; height: 16px; border-radius: 50%; top: -4px; transform: translateX(-50%); border: 2px solid var(--bg); transition: left 1s ease; }
+  .jung-label { font-size: 11px; letter-spacing: 2px; color: var(--muted); text-transform: uppercase; margin-bottom: 8px; }
+  .jung-result-tag { font-size: 14px; font-weight: 500; padding: 6px 16px; border-radius: 20px; display: inline-block; }
+
+  /* Values */
+  .values-chart-wrap { position: relative; height: 280px; margin-bottom: 1rem; }
+  .value-item { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+  .value-color { width: 10px; height: 10px; border-radius: 2px; }
+  .value-name { font-size: 13px; width: 110px; }
+  .value-bar-track { flex: 1; height: 6px; background: var(--border2); border-radius: 3px; }
+  .value-bar-fill { height: 100%; border-radius: 3px; transition: width 1s ease; }
+  .value-score-text { font-size: 12px; color: var(--muted); width: 32px; text-align: right; }
+
+  /* Love languages */
+  .love-wrap { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; }
+  .love-card {
+    background: var(--bg2); border: 1px solid var(--border); border-radius: 12px;
+    padding: 1.2rem; text-align: center;
+  }
+  .love-icon { font-size: 28px; margin-bottom: 8px; }
+  .love-name { font-size: 12px; font-weight: 500; margin-bottom: 8px; }
+  .love-ring { width: 60px; height: 60px; margin: 0 auto 8px; position: relative; }
+  .love-ring svg { transform: rotate(-90deg); }
+  .love-ring-val { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 500; }
+  .love-desc { font-size: 11px; color: var(--muted); line-height: 1.5; }
+
+  /* Profile text */
+  .profile-text-block {
+    background: var(--bg2); border: 1px solid var(--border2);
+    border-radius: 12px; padding: 1.6rem;
+  }
+  .profile-text-block p { font-size: 14px; line-height: 1.8; color: var(--muted); margin-bottom: 1rem; }
+  .profile-text-block p:last-child { margin-bottom: 0; }
+  .profile-text-block strong { color: var(--text); font-weight: 500; }
+
+  .strengths-weaknesses { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 1.5rem; }
+  .sw-card { background: var(--bg3); border: 1px solid var(--border); border-radius: 10px; padding: 1.2rem; }
+  .sw-title { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 12px; }
+  .sw-card.strong .sw-title { color: var(--disc-s); }
+  .sw-card.caution .sw-title { color: var(--disc-d); }
+  .sw-item { font-size: 13px; color: var(--muted); margin-bottom: 6px; display: flex; gap: 8px; }
+  .sw-item::before { content: ''; flex-shrink: 0; }
+  .sw-card.strong .sw-item::before { content: '✦'; color: var(--disc-s); font-size: 8px; margin-top: 3px; }
+  .sw-card.caution .sw-item::before { content: '◆'; color: var(--disc-d); font-size: 8px; margin-top: 3px; }
+
+  .recommendations { margin-top: 2rem; }
+  .rec-item {
+    border-left: 2px solid var(--accent2); padding: 12px 16px;
+    margin-bottom: 12px; background: rgba(201,169,110,0.04);
+    border-radius: 0 8px 8px 0;
+  }
+  .rec-title { font-size: 13px; font-weight: 500; margin-bottom: 4px; }
+  .rec-text { font-size: 12px; color: var(--muted); line-height: 1.6; }
+
+  .print-btn {
+    display: block; margin: 2rem auto 0; padding: 14px 40px;
+    background: transparent; border: 1px solid var(--border2);
+    color: var(--muted); font-family: 'DM Sans', sans-serif; font-size: 13px;
+    border-radius: 8px; cursor: pointer; letter-spacing: 1px; transition: all 0.2s;
+  }
+  .print-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+  @media (max-width: 600px) {
+    .rank-grid, .multi-grid { grid-template-columns: 1fr; }
+    .scale-label { display: none; }
+    .strengths-weaknesses { grid-template-columns: 1fr; }
+    .disc-grid { grid-template-columns: 1fr 1fr; }
+  }
+
+  /* ===== EXTRA RESULT STYLES ===== */
+  .report-date { font-size: 11px; color: var(--muted); margin-top: 1rem; letter-spacing: 1px; }
+
+  .summary-strip {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px; margin-bottom: 1rem;
+  }
+  .summary-card {
+    background: var(--bg2); border: 1px solid var(--border2);
+    border-radius: 12px; padding: 1.2rem 1.4rem;
+    display: flex; align-items: center; gap: 14px;
+  }
+  .summary-card-icon { font-size: 22px; flex-shrink: 0; }
+  .summary-card-label { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--accent); margin-bottom: 3px; }
+  .summary-card-value { font-size: 16px; font-weight: 500; }
+  .summary-card-sub { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+  .report-intro-box {
+    background: rgba(201,169,110,0.06); border: 1px solid rgba(201,169,110,0.2);
+    border-radius: 12px; padding: 1.6rem 2rem;
+    font-size: 15px; line-height: 1.85; color: var(--text);
+  }
+  .report-intro-box em { color: var(--accent); font-style: normal; font-weight: 500; }
+
+  .theory-context {
+    background: var(--bg3); border-left: 2px solid var(--accent2);
+    padding: 1rem 1.4rem; border-radius: 0 8px 8px 0;
+    font-size: 13px; color: var(--muted); line-height: 1.7;
+    margin-bottom: 2rem; font-style: italic;
+  }
+
+  .subsection-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.15rem; font-weight: 500;
+    color: var(--text); margin-bottom: 1rem;
+    padding-bottom: 0.5rem; border-bottom: 1px solid var(--border);
+  }
+
+  .disc-radar-wrap {
+    display: flex; align-items: center; justify-content: center;
+    gap: 2rem; flex-wrap: wrap; margin: 1.5rem 0 2rem;
+  }
+
+  .context-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px;
+  }
+  .context-card {
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: 10px; padding: 1.1rem;
+  }
+  .context-card-title {
+    font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 8px;
+  }
+  .context-card-text { font-size: 13px; color: var(--muted); line-height: 1.65; }
+
+  .energy-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .energy-card {
+    background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; padding: 1.2rem;
+  }
+  .energy-title { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 10px; }
+  .energy-card.energize .energy-title { color: #27ae60; }
+  .energy-card.drain .energy-title { color: #c0392b; }
+  .energy-item { font-size: 13px; color: var(--muted); margin-bottom: 6px; display: flex; gap: 8px; line-height: 1.5; }
+  .energy-card.energize .energy-item::before { content: '+'; color: #27ae60; font-weight: 700; flex-shrink: 0; }
+  .energy-card.drain .energy-item::before { content: '−'; color: #c0392b; font-weight: 700; flex-shrink: 0; }
+
+  .recognition-block {
+    background: var(--bg3); border: 1px solid var(--border2);
+    border-radius: 12px; padding: 1.4rem;
+  }
+  .recognition-block p { font-size: 14px; color: var(--muted); line-height: 1.8; margin-bottom: 0.8rem; }
+  .recognition-block p:last-child { margin-bottom: 0; }
+  .recognition-block strong { color: var(--accent); font-weight: 500; }
+  .recognition-block em { color: var(--text); font-style: italic; }
+
+  .jung-type-hero {
+    background: var(--bg2); border: 1px solid var(--border2);
+    border-radius: 14px; padding: 2rem; text-align: center; margin: 2rem 0;
+  }
+  .jung-type-letters {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 4rem; font-weight: 300; letter-spacing: 12px; color: var(--accent);
+    margin-bottom: 0.5rem;
+  }
+  .jung-type-name { font-size: 1.1rem; font-weight: 500; margin-bottom: 0.5rem; }
+  .jung-type-motto { font-size: 13px; color: var(--muted); font-style: italic; max-width: 500px; margin: 0 auto; line-height: 1.6; }
+
+  .dimension-block {
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: 12px; padding: 1.4rem; margin-bottom: 1rem;
+  }
+  .dimension-header { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+  .dimension-badge {
+    padding: 4px 14px; border-radius: 20px; font-size: 12px; font-weight: 500;
+  }
+  .dimension-pct { font-size: 13px; color: var(--muted); }
+  .dimension-body { font-size: 13px; color: var(--muted); line-height: 1.7; }
+  .dimension-body strong { color: var(--text); font-weight: 500; }
+
+  .info-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; }
+  .info-card {
+    background: var(--bg3); border: 1px solid var(--border); border-radius: 10px; padding: 1.1rem;
+  }
+  .info-card-icon { font-size: 18px; margin-bottom: 8px; }
+  .info-card-title { font-size: 12px; font-weight: 500; margin-bottom: 6px; }
+  .info-card-text { font-size: 12px; color: var(--muted); line-height: 1.6; }
+
+  .value-detail-block {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px;
+    margin-bottom: 1.5rem;
+  }
+  .value-detail-card {
+    background: var(--bg2); border: 1px solid var(--border);
+    border-left-width: 3px; border-radius: 10px; padding: 1.2rem;
+  }
+  .value-detail-header { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+  .value-detail-rank {
+    width: 26px; height: 26px; border-radius: 8px; display: flex; align-items: center;
+    justify-content: center; font-size: 12px; font-weight: 700; flex-shrink: 0;
+    color: var(--bg);
+  }
+  .value-detail-name { font-size: 14px; font-weight: 500; }
+  .value-detail-score { font-size: 12px; color: var(--muted); margin-left: auto; }
+  .value-detail-text { font-size: 13px; color: var(--muted); line-height: 1.7; }
+  .value-detail-text strong { color: var(--text); font-weight: 500; }
+
+  .love-actions { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-bottom: 1.5rem; }
+  .love-action-card {
+    background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; padding: 1.1rem;
+  }
+  .love-action-title { font-size: 12px; letter-spacing: 1px; text-transform: uppercase; color: var(--accent); margin-bottom: 8px; }
+  .love-action-item { font-size: 13px; color: var(--muted); margin-bottom: 5px; display: flex; gap: 8px; }
+  .love-action-item::before { content: '→'; color: var(--accent2); flex-shrink: 0; }
+
+  .love-all-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
+  .love-full-card {
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: 12px; padding: 1.3rem; display: flex; gap: 16px; align-items: flex-start;
+  }
+  .love-full-icon-wrap { flex-shrink: 0; text-align: center; width: 50px; }
+  .love-full-icon { font-size: 24px; margin-bottom: 4px; }
+  .love-full-pct { font-size: 11px; font-weight: 500; }
+  .love-full-content { flex: 1; }
+  .love-full-name { font-size: 14px; font-weight: 500; margin-bottom: 4px; }
+  .love-full-rank { font-size: 10px; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+  .love-full-text { font-size: 13px; color: var(--muted); line-height: 1.7; }
+  .love-full-text strong { color: var(--text); font-weight: 500; }
+
+  .integrated-hero {
+    background: linear-gradient(135deg, rgba(201,169,110,0.08), rgba(139,106,62,0.04));
+    border: 1px solid rgba(201,169,110,0.2); border-radius: 16px;
+    padding: 2.5rem; text-align: center; margin-bottom: 2rem;
+  }
+  .integrated-hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.8rem; font-weight: 400; color: var(--accent); margin-bottom: 0.8rem;
+  }
+  .integrated-hero-sub { font-size: 13px; color: var(--muted); line-height: 1.7; max-width: 600px; margin: 0 auto; }
+  .integrated-tags { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: 1.5rem; }
+  .itag {
+    font-size: 11px; padding: 5px 14px; border-radius: 20px;
+    border: 1px solid; letter-spacing: 0.5px;
+  }
+
+  .reflection-block {
+    background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; padding: 1.6rem;
+  }
+  .reflection-item {
+    padding: 12px 0; border-bottom: 1px solid var(--border);
+    font-size: 14px; color: var(--muted); line-height: 1.7;
+    display: flex; gap: 12px;
+  }
+  .reflection-item:last-child { border-bottom: none; padding-bottom: 0; }
+  .reflection-num { color: var(--accent); font-size: 12px; font-weight: 500; flex-shrink: 0; margin-top: 2px; }
+
+  .report-footer {
+    text-align: center; padding: 3rem 1rem 4rem;
+    border-top: 1px solid var(--border); margin-top: 2rem;
+  }
+
+  @media print {
+    .grain, .progress-bar-outer, .nav-bar, .print-btn { display: none !important; }
+    .section { display: none !important; }
+    #results { display: block !important; }
+    body { background: white; color: #111; }
+  }
+</style>
+</head>
+<body>
+<div class="grain"></div>
+<div class="page">
+
+<!-- HEADER -->
+<div class="header">
+  <div class="logo-tag">CIS Assessment · Perfil Comportamental</div>
+  <h1>Descubra quem<br>você <em>realmente</em> é</h1>
+  <p>Uma avaliação integrada baseada nas mais reconhecidas teorias do comportamento humano para mapear seu perfil com profundidade e precisão.</p>
+  <div class="theories-bar">
+    <span class="theory-badge">DISC — Marston</span>
+    <span class="theory-badge">Tipos Psicológicos — Jung</span>
+    <span class="theory-badge">Valores — Spranger</span>
+    <span class="theory-badge">Linguagens do Amor — Chapman</span>
+  </div>
+</div>
+
+<!-- PROGRESS BAR -->
+<div class="progress-bar-outer" id="progressBar" style="display:none">
+  <span class="progress-info" id="progressInfo">1 / 5</span>
+  <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:20%"></div></div>
+  <div class="section-dots" id="sectionDots">
+    <div class="sdot active" title="DISC"></div>
+    <div class="sdot" title="Jung"></div>
+    <div class="sdot" title="Spranger"></div>
+    <div class="sdot" title="Chapman"></div>
+    <div class="sdot" title="Revisão"></div>
+  </div>
+</div>
+
+<!-- INTRO SECTION -->
+<div class="section active" id="sec-intro">
+  <div class="intro-grid">
+    <div class="intro-card">
+      <div class="intro-card-icon">◈</div>
+      <div class="intro-card-title">DISC</div>
+      <div class="intro-card-desc">Dominância, Influência, Estabilidade e Conformidade. Como você age e reage ao mundo.</div>
+    </div>
+    <div class="intro-card">
+      <div class="intro-card-icon">◉</div>
+      <div class="intro-card-title">Tipos de Jung</div>
+      <div class="intro-card-desc">Introversão/Extroversão, Sensação/Intuição, Pensamento/Sentimento, Julgamento/Percepção.</div>
+    </div>
+    <div class="intro-card">
+      <div class="intro-card-icon">◆</div>
+      <div class="intro-card-title">Valores de Spranger</div>
+      <div class="intro-card-desc">Os 6 valores que motivam suas decisões: Teórico, Econômico, Estético, Social, Político e Religioso.</div>
+    </div>
+    <div class="intro-card">
+      <div class="intro-card-icon">♡</div>
+      <div class="intro-card-title">Linguagens do Amor</div>
+      <div class="intro-card-desc">Como você dá e recebe afeto: Palavras, Atos de Serviço, Presentes, Tempo de Qualidade ou Toque Físico.</div>
+    </div>
+  </div>
+  <div class="name-input-wrap">
+    <label>Seu nome completo</label>
+    <input type="text" class="name-input" id="userName" placeholder="Digite seu nome..." />
+  </div>
+  <div class="nav-bar">
+    <div></div>
+    <button class="btn btn-primary" onclick="startAssessment()">Iniciar Avaliação →</button>
+  </div>
+</div>
+
+<!-- SECTION 1: DISC -->
+<div class="section" id="sec-disc">
+  <div class="section-header">
+    <div class="section-icon" style="background:rgba(192,57,43,0.12)">◈</div>
+    <div class="section-meta">
+      <div class="section-num">Módulo 01 · DISC</div>
+      <div class="section-title">Perfil Comportamental de Marston</div>
+      <div class="section-desc">Responda com base em como você realmente se comporta, não como gostaria de ser. Não há respostas certas ou erradas.</div>
+    </div>
+  </div>
+
+  <!-- Q1 -->
+  <div class="question-block" id="qdisc1">
+    <div class="question-text"><span class="q-num">1.</span>Quando enfrento um desafio ou obstáculo no trabalho, minha tendência é:</div>
+    <div class="multi-grid">
+      <div class="multi-opt" onclick="selectMulti('disc_1','A',this)"><div class="multi-check"></div>Ir direto ao ponto e resolver sem rodeios</div>
+      <div class="multi-opt" onclick="selectMulti('disc_1','B',this)"><div class="multi-check"></div>Engajar outras pessoas com entusiasmo</div>
+      <div class="multi-opt" onclick="selectMulti('disc_1','C',this)"><div class="multi-check"></div>Esperar o momento certo e agir com cuidado</div>
+      <div class="multi-opt" onclick="selectMulti('disc_1','D',this)"><div class="multi-check"></div>Analisar todos os dados antes de decidir</div>
+    </div>
+  </div>
+
+  <!-- Q2 -->
+  <div class="question-block" id="qdisc2">
+    <div class="question-text"><span class="q-num">2.</span>Pessoas que me conhecem bem diriam que sou:</div>
+    <div class="multi-grid">
+      <div class="multi-opt" onclick="selectMulti('disc_2','A',this)"><div class="multi-check"></div>Determinado e orientado a resultados</div>
+      <div class="multi-opt" onclick="selectMulti('disc_2','B',this)"><div class="multi-check"></div>Carismático e inspirador</div>
+      <div class="multi-opt" onclick="selectMulti('disc_2','C',this)"><div class="multi-check"></div>Leal e paciente com todos</div>
+      <div class="multi-opt" onclick="selectMulti('disc_2','D',this)"><div class="multi-check"></div>Preciso e criterioso</div>
+    </div>
+  </div>
+
+  <!-- Q3: Scale -->
+  <div class="question-block" id="qdisc3">
+    <div class="question-text"><span class="q-num">3.</span>Em reuniões e apresentações, eu prefiro assumir o comando e liderar a discussão:</div>
+    <div class="scale-row">
+      <div class="scale-label">Discordo totalmente</div>
+      <div class="scale-options">
+        <button class="scale-btn" onclick="selectScale('disc_3','1',this)">1</button>
+        <button class="scale-btn" onclick="selectScale('disc_3','2',this)">2</button>
+        <button class="scale-btn" onclick="selectScale('disc_3','3',this)">3</button>
+        <button class="scale-btn" onclick="selectScale('disc_3','4',this)">4</button>
+        <button class="scale-btn" onclick="selectScale('disc_3','5',this)">5</button>
+      </div>
+      <div class="scale-label right">Concordo plenamente</div>
+    </div>
+  </div>
+
+  <!-- Q4 -->
+  <div class="question-block" id="qdisc4">
+    <div class="question-text"><span class="q-num">4.</span>Quando algo dá errado, minha primeira reação é:</div>
+    <div class="multi-grid">
+      <div class="multi-opt" onclick="selectMulti('disc_4','A',this)"><div class="multi-check"></div>Responsabilizar o que/quem causou o problema</div>
+      <div class="multi-opt" onclick="selectMulti('disc_4','B',this)"><div class="multi-check"></div>Tentar animar o grupo e encontrar solução criativa</div>
+      <div class="multi-opt" onclick="selectMulti('disc_4','C',this)"><div class="multi-check"></div>Me preocupar com o impacto nas pessoas envolvidas</div>
+      <div class="multi-opt" onclick="selectMulti('disc_4','D',this)"><div class="multi-check"></div>Investigar a causa raiz com detalhes</div>
+    </div>
+  </div>
+
+  <!-- Q5: Scale -->
+  <div class="question-block" id="qdisc5">
+    <div class="question-text"><span class="q-num">5.</span>Eu me sinto energizado quando conecto e influencio pessoas ao meu redor:</div>
+    <div class="scale-row">
+      <div class="scale-label">Discordo totalmente</div>
+      <div class="scale-options">
+        <button class="scale-btn" onclick="selectScale('disc_5','1',this)">1</button>
+        <button class="scale-btn" onclick="selectScale('disc_5','2',this)">2</button>
+        <button class="scale-btn" onclick="selectScale('disc_5','3',this)">3</button>
+        <button class="scale-btn" onclick="selectScale('disc_5','4',this)">4</button>
+        <button class="scale-btn" onclick="selectScale('disc_5','5',this)">5</button>
+      </div>
+      <div class="scale-label right">Concordo plenamente</div>
+    </div>
+  </div>
+
+  <!-- Q6 -->
+  <div class="question-block" id="qdisc6">
+    <div class="question-text"><span class="q-num">6.</span>No trabalho em equipe, meu papel mais natural é:</div>
+    <div class="multi-grid">
+      <div class="multi-opt" onclick="selectMulti('disc_6','A',this)"><div class="multi-check"></div>Definir metas e cobrar resultados</div>
+      <div class="multi-opt" onclick="selectMulti('disc_6','B',this)"><div class="multi-check"></div>Motivar e criar um clima positivo</div>
+      <div class="multi-opt" onclick="selectMulti('disc_6','C',this)"><div class="multi-check"></div>Apoiar e garantir harmonia no grupo</div>
+      <div class="multi-opt" onclick="selectMulti('disc_6','D',this)"><div class="multi-check"></div>Organizar, planejar e controlar a qualidade</div>
+    </div>
+  </div>
+
+  <!-- Q7: Scale -->
+  <div class="question-block" id="qdisc7">
+    <div class="question-text"><span class="q-num">7.</span>Prefiro ambientes estáveis e previsíveis a situações de mudança frequente:</div>
+    <div class="scale-row">
+      <div class="scale-label">Discordo totalmente</div>
+      <div class="scale-options">
+        <button class="scale-btn" onclick="selectScale('disc_7','1',this)">1</button>
+        <button class="scale-btn" onclick="selectScale('disc_7','2',this)">2</button>
+        <button class="scale-btn" onclick="selectScale('disc_7','3',this)">3</button>
+        <button class="scale-btn" onclick="selectScale('disc_7','4',this)">4</button>
+        <button class="scale-btn" onclick="selectScale('disc_7','5',this)">5</button>
+      </div>
+      <div class="scale-label right">Concordo plenamente</div>
+    </div>
+  </div>
+
+  <!-- Q8: Scale -->
+  <div class="question-block" id="qdisc8">
+    <div class="question-text"><span class="q-num">8.</span>Sinto desconforto quando tenho que tomar decisões sem dados suficientes:</div>
+    <div class="scale-row">
+      <div class="scale-label">Discordo totalmente</div>
+      <div class="scale-options">
+        <button class="scale-btn" onclick="selectScale('disc_8','1',this)">1</button>
+        <button class="scale-btn" onclick="selectScale('disc_8','2',this)">2</button>
+        <button class="scale-btn" onclick="selectScale('disc_8','3',this)">3</button>
+        <button class="scale-btn" onclick="selectScale('disc_8','4',this)">4</button>
+        <button class="scale-btn" onclick="selectScale('disc_8','5',this)">5</button>
+      </div>
+      <div class="scale-label right">Concordo plenamente</div>
+    </div>
+  </div>
+
+  <div class="nav-bar">
+    <button class="btn btn-outline" onclick="goSection('intro')">← Voltar</button>
+    <button class="btn btn-primary" id="btnDiscNext" onclick="goSection('jung')">Próximo módulo →</button>
+  </div>
+</div>
+
+<!-- SECTION 2: JUNG -->
+<div class="section" id="sec-jung">
+  <div class="section-header">
+    <div class="section-icon" style="background:rgba(142,68,173,0.12)">◉</div>
+    <div class="section-meta">
+      <div class="section-num">Módulo 02 · Tipos Psicológicos</div>
+      <div class="section-title">Tipos Psicológicos de Carl Jung</div>
+      <div class="section-desc">Estas questões exploram suas preferências naturais de processar informação, tomar decisões e interagir com o mundo.</div>
+    </div>
+  </div>
+
+  <!-- Q1 Jung: EI -->
+  <div class="question-block" id="qjung1">
+    <div class="question-text"><span class="q-num">1.</span>Após um longo dia de trabalho com muitas interações, o que mais te revigora?</div>
+    <div class="multi-grid">
+      <div class="multi-opt" onclick="selectMulti('jung_1','E',this)"><div class="multi-check"></div>Sair com amigos ou continuar socializando</div>
+      <div class="multi-opt" onclick="selectMulti('jung_1','I',this)"><div class="multi-check"></div>Ficar sozinho em silêncio para recarregar</div>
+    </div>
+  </div>
+
+  <!-- Q2 Jung: EI scale -->
+  <div class="question-block" id="qjung2">
+    <div class="question-text"><span class="q-num">2.</span>Penso melhor quando estou processando ideias sozinho(a), internamente:</div>
+    <div class="scale-row">
+      <div class="scale-label">Discordo totalmente</div>
+      <div class="scale-options">
+        <button class="scale-btn" onclick="selectScale('jung_2','1',this)">1</button>
+        <button class="scale-btn" onclick="selectScale('jung_2','2',this)">2</button>
+        <button class="scale-btn" onclick="selectScale('jung_2','3',this)">3</button>
+        <button class="scale-btn" onclick="selectScale('jung_2','4',this)">4</button>
+        <button class="scale-btn" onclick="selectScale('jung_2','5',this)">5</button>
+      </div>
+      <div class="scale-label right">Concordo plenamente</div>
+    </div>
+  </div>
+
+  <!-- Q3 Jung: SN -->
+  <div class="question-block" id="qjung3">
+    <div class="question-text"><span class="q-num">3.</span>Ao tomar decisões, você confia mais em:</div>
+    <div class="multi-grid">
+      <div class="multi-opt" onclick="selectMulti('jung_3','S',this)"><div class="multi-check"></div>Fatos concretos, dados e experiências passadas</div>
+      <div class="multi-opt" onclick="selectMulti('jung_3','N',this)"><div class="multi-check"></div>Intuição, padrões e possibilidades futuras</div>
+    </div>
+  </div>
+
+  <!-- Q4 Jung: SN scale -->
+  <div class="question-block" id="qjung4">
+    <div class="question-text"><span class="q-num">4.</span>Prefiro trabalhar com conceitos abstratos e teorias a lidar com detalhes práticos e concretos:</div>
+    <div class="scale-row">
+      <div class="scale-label">Discordo totalmente</div>
+      <div class="scale-options">
+        <button class="scale-btn" onclick="selectScale('jung_4','1',this)">1</button>
+        <button class="scale-btn" onclick="selectScale('jung_4','2',this)">2</button>
+        <button class="scale-btn" onclick="selectScale('jung_4','3',this)">3</button>
+        <button class="scale-btn" onclick="selectScale('jung_4','4',this)">4</button>
+        <button class="scale-btn" onclick="selectScale('jung_4','5',this)">5</button>
+      </div>
+      <div class="scale-label right">Concordo plenamente</div>
+    </div>
+  </div>
+
+  <!-- Q5 Jung: TF -->
+  <div class="question-block" id="qjung5">
+    <div class="question-text"><span class="q-num">5.</span>Quando preciso dar um feedback difícil, você prioriza:</div>
+    <div class="multi-grid">
+      <div class="multi-opt" onclick="selectMulti('jung_5','T',this)"><div class="multi-check"></div>Ser direto e objetivo, mesmo que cause desconforto</div>
+      <div class="multi-opt" onclick="selectMulti('jung_5','F',this)"><div class="multi-check"></div>Considerar os sentimentos da pessoa primeiro</div>
+    </div>
+  </div>
+
+  <!-- Q6 Jung: TF scale -->
+  <div class="question-block" id="qjung6">
+    <div class="question-text"><span class="q-num">6.</span>Tomo decisões mais facilmente quando considero o impacto emocional nas pessoas envolvidas:</div>
+    <div class="scale-row">
+      <div class="scale-label">Discordo totalmente</div>
+      <div class="scale-options">
+        <button class="scale-btn" onclick="selectScale('jung_6','1',this)">1</button>
+        <button class="scale-btn" onclick="selectScale('jung_6','2',this)">2</button>
+        <button class="scale-btn" onclick="selectScale('jung_6','3',this)">3</button>
+        <button class="scale-btn" onclick="selectScale('jung_6','4',this)">4</button>
+        <button class="scale-btn" onclick="selectScale('jung_6','5',this)">5</button>
+      </div>
+      <div class="scale-label right">Concordo plenamente</div>
+    </div>
+  </div>
+
+  <!-- Q7 Jung: JP -->
+  <div class="question-block" id="qjung7">
+    <div class="question-text"><span class="q-num">7.</span>Em relação a prazos e planejamento, você se identifica mais com:</div>
+    <div class="multi-grid">
+      <div class="multi-opt" onclick="selectMulti('jung_7','J',this)"><div class="multi-check"></div>Prefiro ter tudo planejado e definido com antecedência</div>
+      <div class="multi-opt" onclick="selectMulti('jung_7','P',this)"><div class="multi-check"></div>Gosto de flexibilidade e adaptar conforme surgem novas informações</div>
+    </div>
+  </div>
+
+  <!-- Q8 Jung: JP scale -->
+  <div class="question-block" id="qjung8">
+    <div class="question-text"><span class="q-num">8.</span>Me sinto desconfortável quando há muita imprevisibilidade ou falta de estrutura nas atividades:</div>
+    <div class="scale-row">
+      <div class="scale-label">Discordo totalmente</div>
+      <div class="scale-options">
+        <button class="scale-btn" onclick="selectScale('jung_8','1',this)">1</button>
+        <button class="scale-btn" onclick="selectScale('jung_8','2',this)">2</button>
+        <button class="scale-btn" onclick="selectScale('jung_8','3',this)">3</button>
+        <button class="scale-btn" onclick="selectScale('jung_8','4',this)">4</button>
+        <button class="scale-btn" onclick="selectScale('jung_8','5',this)">5</button>
+      </div>
+      <div class="scale-label right">Concordo plenamente</div>
+    </div>
+  </div>
+
+  <div class="nav-bar">
+    <button class="btn btn-outline" onclick="goSection('disc')">← Voltar</button>
+    <button class="btn btn-primary" onclick="goSection('spranger')">Próximo módulo →</button>
+  </div>
+</div>
+
+<!-- SECTION 3: SPRANGER -->
+<div class="section" id="sec-spranger">
+  <div class="section-header">
+    <div class="section-icon" style="background:rgba(243,156,18,0.12)">◆</div>
+    <div class="section-meta">
+      <div class="section-num">Módulo 03 · Valores</div>
+      <div class="section-title">Teoria de Valores de Eduard Spranger</div>
+      <div class="section-desc">Distribua pontos (total de 10) entre as opções de cada questão conforme o quanto cada fator te motiva. Quanto maior a nota, mais importante.</div>
+    </div>
+  </div>
+
+  <!-- Q1 Spranger: rank -->
+  <div class="question-block" id="qspr1">
+    <div class="question-text"><span class="q-num">1.</span>O que mais me motiva em um trabalho ou projeto é:</div>
+    <div class="rank-grid">
+      <div class="rank-option" onclick="selectRank('spr_1','T',this)"><div class="rank-badge">T</div>Descobrir como as coisas funcionam</div>
+      <div class="rank-option" onclick="selectRank('spr_1','E',this)"><div class="rank-badge">E</div>Gerar resultados financeiros</div>
+      <div class="rank-option" onclick="selectRank('spr_1','Es',this)"><div class="rank-badge">A</div>Criar algo belo ou harmonioso</div>
+      <div class="rank-option" onclick="selectRank('spr_1','S',this)"><div class="rank-badge">S</div>Ajudar e impactar pessoas</div>
+      <div class="rank-option" onclick="selectRank('spr_1','P',this)"><div class="rank-badge">P</div>Liderar e influenciar decisões</div>
+      <div class="rank-option" onclick="selectRank('spr_1','R',this)"><div class="rank-badge">R</div>Ter um propósito maior na vida</div>
+    </div>
+  </div>
+
+  <!-- Q2 Spranger: scale questions -->
+  <div class="question-block" id="qspr2">
+    <div class="question-text"><span class="q-num">2.</span>Passo horas pesquisando e estudando assuntos do meu interesse por pura curiosidade:</div>
+    <div class="scale-row">
+      <div class="scale-label">Raramente</div>
+      <div class="scale-options">
+        <button class="scale-btn" onclick="selectScale('spr_2','1',this)">1</button>
+        <button class="scale-btn" onclick="selectScale('spr_2','2',this)">2</button>
+        <button class="scale-btn" onclick="selectScale('spr_2','3',this)">3</button>
+        <button class="scale-btn" onclick="selectScale('spr_2','4',this)">4</button>
+        <button class="scale-btn" onclick="selectScale('spr_2','5',this)">5</button>
+      </div>
+      <div class="scale-label right">Com frequência</div>
+    </div>
+  </div>
+
+  <div class="question-block" id="qspr3">
+    <div class="question-text"><span class="q-num">3.</span>Sinto que meu sucesso é medido pelo retorno financeiro e pela eficiência dos meus resultados:</div>
+    <div class="scale-row">
+      <div class="scale-label">Discordo</div>
+      <div class="scale-options">
+        <button class="scale-btn" onclick="selectScale('spr_3','1',this)">1</button>
+        <button class="scale-btn" onclick="selectScale('spr_3','2',this)">2</button>
+        <button class="scale-btn" onclick="selectScale('spr_3','3',this)">3</button>
+        <button class="scale-btn" onclick="selectScale('spr_3','4',this)">4</button>
+        <button class="scale-btn" onclick="selectScale('spr_3','5',this)">5</button>
+      </div>
+      <div class="scale-label right">Concordo</div>
+    </div>
+  </div>
+
+  <div class="question-block" id="qspr4">
+    <div class="question-text"><span class="q-num">4.</span>Beleza, harmonia e expressão artística são aspectos fundamentais em minha vida:</div>
+    <div class="scale-row">
+      <div class="scale-label">Discordo</div>
+      <div class="scale-options">
+        <button class="scale-btn" onclick="selectScale('spr_4','1',this)">1</button>
+        <button class="scale-btn" onclick="selectScale('spr_4','2',this)">2</button>
+        <button class="scale-btn" onclick="selectScale('spr_4','3',this)">3</button>
+        <button class="scale-btn" onclick="selectScale('spr_4','4',this)">4</button>
+        <button class="scale-btn" onclick="selectScale('spr_4','5',this)">5</button>
+      </div>
+      <div class="scale-label right">Concordo</div>
+    </div>
+  </div>
+
+  <div class="question-block" id="qspr5">
+    <div class="question-text"><span class="q-num">5.</span>Me satisfaço genuinamente quando contribuo com o bem-estar e crescimento de outras pessoas:</div>
+    <div class="scale-row">
+      <div class="scale-label">Discordo</div>
+      <div class="scale-options">
+        <button class="scale-btn" onclick="selectScale('spr_5','1',this)">1</button>
+        <button class="scale-btn" onclick="selectScale('spr_5','2',this)">2</button>
+        <button class="scale-btn" onclick="selectScale('spr_5','3',this)">3</button>
+        <button class="scale-btn" onclick="selectScale('spr_5','4',this)">4</button>
+        <button class="scale-btn" onclick="selectScale('spr_5','5',this)">5</button>
+      </div>
+      <div class="scale-label right">Concordo</div>
+    </div>
+  </div>
+
+  <div class="question-block" id="qspr6">
+    <div class="question-text"><span class="q-num">6.</span>Gosto de estar em posições de liderança onde posso influenciar pessoas e tomar decisões importantes:</div>
+    <div class="scale-row">
+      <div class="scale-label">Discordo</div>
+      <div class="scale-options">
+        <button class="scale-btn" onclick="selectScale('spr_6','1',this)">1</button>
+        <button class="scale-btn" onclick="selectScale('spr_6','2',this)">2</button>
+        <button class="scale-btn" onclick="selectScale('spr_6','3',this)">3</button>
+        <button class="scale-btn" onclick="selectScale('spr_6','4',this)">4</button>
+        <button class="scale-btn" onclick="selectScale('spr_6','5',this)">5</button>
+      </div>
+      <div class="scale-label right">Concordo</div>
+    </div>
+  </div>
+
+  <div class="question-block" id="qspr7">
+    <div class="question-text"><span class="q-num">7.</span>Busco sentido e propósito espiritual ou filosófico profundo nas minhas ações:</div>
+    <div class="scale-row">
+      <div class="scale-label">Discordo</div>
+      <div class="scale-options">
+        <button class="scale-btn" onclick="selectScale('spr_7','1',this)">1</button>
+        <button class="scale-btn" onclick="selectScale('spr_7','2',this)">2</button>
+        <button class="scale-btn" onclick="selectScale('spr_7','3',this)">3</button>
+        <button class="scale-btn" onclick="selectScale('spr_7','4',this)">4</button>
+        <button class="scale-btn" onclick="selectScale('spr_7','5',this)">5</button>
+      </div>
+      <div class="scale-label right">Concordo</div>
+    </div>
+  </div>
+
+  <div class="nav-bar">
+    <button class="btn btn-outline" onclick="goSection('jung')">← Voltar</button>
+    <button class="btn btn-primary" onclick="goSection('chapman')">Próximo módulo →</button>
+  </div>
+</div>
+
+<!-- SECTION 4: CHAPMAN -->
+<div class="section" id="sec-chapman">
+  <div class="section-header">
+    <div class="section-icon" style="background:rgba(232,67,147,0.12)">♡</div>
+    <div class="section-meta">
+      <div class="section-num">Módulo 04 · Linguagens do Amor</div>
+      <div class="section-title">As 5 Linguagens do Amor de Gary Chapman</div>
+      <div class="section-desc">Responda sobre como você naturalmente expressa e recebe afeto — em relacionamentos pessoais e profissionais.</div>
+    </div>
+  </div>
+
+  <!-- Q1 -->
+  <div class="question-block" id="qchap1">
+    <div class="question-text"><span class="q-num">1.</span>Quando quero demonstrar que me importo com alguém, meu gesto mais natural é:</div>
+    <div class="multi-grid">
+      <div class="multi-opt" onclick="selectMulti('chap_1','W',this)"><div class="multi-check"></div>Dizer o quanto valorizo e aprecio a pessoa</div>
+      <div class="multi-opt" onclick="selectMulti('chap_1','A',this)"><div class="multi-check"></div>Fazer algo útil por ela sem ser pedido</div>
+      <div class="multi-opt" onclick="selectMulti('chap_1','G',this)"><div class="multi-check"></div>Dar um presente pensado com cuidado</div>
+      <div class="multi-opt" onclick="selectMulti('chap_1','T',this)"><div class="multi-check"></div>Reservar tempo exclusivo para estar junto</div>
+      <div class="multi-opt" onclick="selectMulti('chap_1','P',this)"><div class="multi-check"></div>Um abraço, toque ou gesto físico de carinho</div>
+    </div>
+  </div>
+
+  <!-- Q2 -->
+  <div class="question-block" id="qchap2">
+    <div class="question-text"><span class="q-num">2.</span>Me sinto mais amado(a) e valorizado(a) quando:</div>
+    <div class="multi-grid">
+      <div class="multi-opt" onclick="selectMulti('chap_2','W',this)"><div class="multi-check"></div>Alguém me elogia ou expressa gratidão</div>
+      <div class="multi-opt" onclick="selectMulti('chap_2','A',this)"><div class="multi-check"></div>Alguém me ajuda em tarefas do dia a dia</div>
+      <div class="multi-opt" onclick="selectMulti('chap_2','G',this)"><div class="multi-check"></div>Recebo uma lembrança ou presente especial</div>
+      <div class="multi-opt" onclick="selectMulti('chap_2','T',this)"><div class="multi-check"></div>Tenho a atenção total de alguém por um tempo</div>
+      <div class="multi-opt" onclick="selectMulti('chap_2','P',this)"><div class="multi-check"></div>Recebo um toque afetuoso ou proximidade física</div>
+    </div>
+  </div>
+
+  <!-- Q3: scale -->
+  <div class="question-block" id="qchap3">
+    <div class="question-text"><span class="q-num">3.</span>Elogios e palavras de afirmação têm grande peso emocional para mim:</div>
+    <div class="scale-row">
+      <div class="scale-label">Pouco importante</div>
+      <div class="scale-options">
+        <button class="scale-btn" onclick="selectScale('chap_3','1',this)">1</button>
+        <button class="scale-btn" onclick="selectScale('chap_3','2',this)">2</button>
+        <button class="scale-btn" onclick="selectScale('chap_3','3',this)">3</button>
+        <button class="scale-btn" onclick="selectScale('chap_3','4',this)">4</button>
+        <button class="scale-btn" onclick="selectScale('chap_3','5',this)">5</button>
+      </div>
+      <div class="scale-label right">Muito importante</div>
+    </div>
+  </div>
+
+  <div class="question-block" id="qchap4">
+    <div class="question-text"><span class="q-num">4.</span>Quando alguém faz algo por mim sem eu pedir, me sinto profundamente valorizado(a):</div>
+    <div class="scale-row">
+      <div class="scale-label">Discordo</div>
+      <div class="scale-options">
+        <button class="scale-btn" onclick="selectScale('chap_4','1',this)">1</button>
+        <button class="scale-btn" onclick="selectScale('chap_4','2',this)">2</button>
+        <button class="scale-btn" onclick="selectScale('chap_4','3',this)">3</button>
+        <button class="scale-btn" onclick="selectScale('chap_4','4',this)">4</button>
+        <button class="scale-btn" onclick="selectScale('chap_4','5',this)">5</button>
+      </div>
+      <div class="scale-label right">Concordo</div>
+    </div>
+  </div>
+
+  <div class="question-block" id="qchap5">
+    <div class="question-text"><span class="q-num">5.</span>Presentes e lembranças são para mim símbolos poderosos de afeto e consideração:</div>
+    <div class="scale-row">
+      <div class="scale-label">Discordo</div>
+      <div class="scale-options">
+        <button class="scale-btn" onclick="selectScale('chap_5','1',this)">1</button>
+        <button class="scale-btn" onclick="selectScale('chap_5','2',this)">2</button>
+        <button class="scale-btn" onclick="selectScale('chap_5','3',this)">3</button>
+        <button class="scale-btn" onclick="selectScale('chap_5','4',this)">4</button>
+        <button class="scale-btn" onclick="selectScale('chap_5','5',this)">5</button>
+      </div>
+      <div class="scale-label right">Concordo</div>
+    </div>
+  </div>
+
+  <div class="question-block" id="qchap6">
+    <div class="question-text"><span class="q-num">6.</span>Passar tempo de qualidade com pessoas que amo, sem distrações, é fundamental para mim:</div>
+    <div class="scale-row">
+      <div class="scale-label">Discordo</div>
+      <div class="scale-options">
+        <button class="scale-btn" onclick="selectScale('chap_6','1',this)">1</button>
+        <button class="scale-btn" onclick="selectScale('chap_6','2',this)">2</button>
+        <button class="scale-btn" onclick="selectScale('chap_6','3',this)">3</button>
+        <button class="scale-btn" onclick="selectScale('chap_6','4',this)">4</button>
+        <button class="scale-btn" onclick="selectScale('chap_6','5',this)">5</button>
+      </div>
+      <div class="scale-label right">Concordo</div>
+    </div>
+  </div>
+
+  <div class="question-block" id="qchap7">
+    <div class="question-text"><span class="q-num">7.</span>O toque físico (abraços, apertos de mão, tapinhas nas costas) me transmite segurança e conexão:</div>
+    <div class="scale-row">
+      <div class="scale-label">Discordo</div>
+      <div class="scale-options">
+        <button class="scale-btn" onclick="selectScale('chap_7','1',this)">1</button>
+        <button class="scale-btn" onclick="selectScale('chap_7','2',this)">2</button>
+        <button class="scale-btn" onclick="selectScale('chap_7','3',this)">3</button>
+        <button class="scale-btn" onclick="selectScale('chap_7','4',this)">4</button>
+        <button class="scale-btn" onclick="selectScale('chap_7','5',this)">5</button>
+      </div>
+      <div class="scale-label right">Concordo</div>
+    </div>
+  </div>
+
+  <!-- Q8 Chapman: scenario -->
+  <div class="question-block" id="qchap8">
+    <div class="question-text"><span class="q-num">8.</span>Em um dia difícil, o que mais me conforta vindo de alguém querido:</div>
+    <div class="multi-grid">
+      <div class="multi-opt" onclick="selectMulti('chap_8','W',this)"><div class="multi-check"></div>"Você é incrível e vai superar isso"</div>
+      <div class="multi-opt" onclick="selectMulti('chap_8','A',this)"><div class="multi-check"></div>A pessoa resolve algo que eu estava precisando</div>
+      <div class="multi-opt" onclick="selectMulti('chap_8','G',this)"><div class="multi-check"></div>Receber uma surpresa ou presente especial</div>
+      <div class="multi-opt" onclick="selectMulti('chap_8','T',this)"><div class="multi-check"></div>Alguém simplesmente ficar ao meu lado</div>
+      <div class="multi-opt" onclick="selectMulti('chap_8','P',this)"><div class="multi-check"></div>Um abraço longo e acolhedor</div>
+    </div>
+  </div>
+
+  <div class="nav-bar">
+    <button class="btn btn-outline" onclick="goSection('spranger')">← Voltar</button>
+    <button class="btn btn-primary" onclick="generateResults()">Ver meu perfil completo →</button>
+  </div>
+</div>
+
+
+<!-- RESULTS -->
+<div id="results">
+
+  <div class="results-hero">
+    <div class="logo-tag">CIS Assessment · Relatório Completo de Perfil Comportamental</div>
+    <h2>Perfil de <span class="person-name" id="resultName">—</span></h2>
+    <div class="profile-archetype" id="archetypeTag">—</div>
+    <div class="report-date" id="reportDate"></div>
+  </div>
+
+  <div class="results-block" style="max-width:980px;margin:0 auto;padding:0 1rem">
+    <div class="summary-strip" id="summaryStrip"></div>
+  </div>
+
+  <div class="results-block" style="max-width:980px;margin:0 auto;padding:0 1rem 2rem">
+    <div class="report-intro-box" id="reportIntro"></div>
+  </div>
+
+  <!-- ═══ DISC ═══ -->
+  <div class="results-block" id="block-disc" style="max-width:980px;margin:0 auto;padding:0 1rem 3rem">
+    <div class="results-section-title"><span class="tag">Módulo 01</span> DISC — Perfil Comportamental de Marston</div>
+    <div class="theory-context">William Moulton Marston (1893–1947), psicólogo e inventor, desenvolveu o modelo DISC baseando-se na observação de como diferentes pessoas respondem ao ambiente. Sua obra "As Emoções das Pessoas Normais" (1928) propôs que o comportamento pode ser descrito em quatro dimensões: Dominância, Influência, Estabilidade e Conformidade. Estas dimensões existem em todos nós em diferentes intensidades — e sua combinação cria seu estilo comportamental único.</div>
+    <div class="disc-grid" id="discResults"></div>
+    <div class="subsection-title" style="margin-top:2rem">Sua configuração DISC em detalhes</div>
+    <div class="profile-text-block" id="discNarrative"></div>
+    <div class="subsection-title" style="margin-top:2rem">Como você age em cada contexto</div>
+    <div class="context-grid" id="discContexts"></div>
+    <div class="subsection-title" style="margin-top:2rem">O que te energiza × O que te drena</div>
+    <div class="energy-grid" id="discEnergy"></div>
+    <div class="subsection-title" style="margin-top:2rem">Pontos fortes e pontos de atenção</div>
+    <div class="strengths-weaknesses" id="discSW"></div>
+    <div class="subsection-title" style="margin-top:2rem">Você se reconhece nisso?</div>
+    <div class="recognition-block" id="discRecognition"></div>
+  </div>
+
+  <!-- ═══ JUNG ═══ -->
+  <div class="results-block" id="block-jung" style="max-width:980px;margin:0 auto;padding:0 1rem 3rem;border-top:1px solid var(--border)">
+    <div class="results-section-title" style="margin-top:2rem"><span class="tag">Módulo 02</span> Tipos Psicológicos de Carl Jung</div>
+    <div class="theory-context">Carl Gustav Jung (1875–1961), psiquiatra suíço e fundador da psicologia analítica, identificou que as pessoas diferem em como orientam sua energia, percebem o mundo, tomam decisões e organizam sua vida. Suas ideias foram a base para o desenvolvimento do MBTI e de diversas ferramentas modernas de desenvolvimento humano. As preferências jungianas não são traços fixos — são tendências naturais que se expressam com mais facilidade e menos esforço do que seus opostos.</div>
+    <div class="jung-pairs" id="jungResults"></div>
+    <div class="jung-type-hero" id="jungTypeHero"></div>
+    <div class="subsection-title">Análise detalhada de cada dimensão</div>
+    <div id="jungDimensions"></div>
+    <div class="subsection-title" style="margin-top:2rem">Seu estilo cognitivo e de tomada de decisão</div>
+    <div class="profile-text-block" id="jungNarrative"></div>
+    <div class="subsection-title" style="margin-top:2rem">Como você aprende e processa informação</div>
+    <div class="info-cards" id="jungLearning"></div>
+    <div class="subsection-title" style="margin-top:2rem">Nas relações interpessoais</div>
+    <div class="profile-text-block" id="jungRelations"></div>
+  </div>
+
+  <!-- ═══ SPRANGER ═══ -->
+  <div class="results-block" id="block-spranger" style="max-width:980px;margin:0 auto;padding:0 1rem 3rem;border-top:1px solid var(--border)">
+    <div class="results-section-title" style="margin-top:2rem"><span class="tag">Módulo 03</span> Teoria de Valores de Eduard Spranger</div>
+    <div class="theory-context">Eduard Spranger (1882–1963), filósofo e pedagogo alemão, propôs em "Tipos de Homens" (Lebensformen, 1914) que toda pessoa é guiada por uma hierarquia de seis valores fundamentais: Teórico, Econômico, Estético, Social, Político e Religioso. Estes valores não são escolhas conscientes — são motivadores profundos que explicam por que certas atividades nos preenchem e outras nos esvaziam, mesmo quando bem remuneradas ou valorizadas socialmente.</div>
+    <div id="sprangerResults"></div>
+    <div class="subsection-title" style="margin-top:2rem">O que cada valor significa para você</div>
+    <div class="value-detail-block" id="sprangerDetail"></div>
+    <div class="subsection-title">O que te move profundamente</div>
+    <div class="profile-text-block" id="sprangerNarrative"></div>
+    <div class="subsection-title" style="margin-top:2rem">Conflitos de valores e pontos de tensão</div>
+    <div class="profile-text-block" id="sprangerConflicts"></div>
+  </div>
+
+  <!-- ═══ CHAPMAN ═══ -->
+  <div class="results-block" id="block-chapman" style="max-width:980px;margin:0 auto;padding:0 1rem 3rem;border-top:1px solid var(--border)">
+    <div class="results-section-title" style="margin-top:2rem"><span class="tag">Módulo 04</span> As 5 Linguagens do Amor — Gary Chapman</div>
+    <div class="theory-context">Gary Chapman, conselheiro de casais por mais de 35 anos, descobriu que a maioria dos conflitos relacionais não vem de falta de amor — mas de incompatibilidade de linguagens. Cada pessoa tem uma forma primária de dar e receber amor. Quando parceiros, amigos ou colegas "falam línguas diferentes", o amor é expresso mas não recebido, criando mal-entendidos profundos mesmo com as melhores intenções. Conhecer sua linguagem — e a dos outros — é uma das habilidades relacionais mais transformadoras.</div>
+    <div class="love-wrap" id="loveResults"></div>
+    <div class="subsection-title" style="margin-top:2rem">Sua linguagem primária em profundidade</div>
+    <div class="profile-text-block" id="lovePrimary"></div>
+    <div class="subsection-title" style="margin-top:2rem">Como aplicar no dia a dia — ações práticas</div>
+    <div class="love-actions" id="loveActions"></div>
+    <div class="subsection-title" style="margin-top:2rem">O que acontece quando sua linguagem não é falada</div>
+    <div class="profile-text-block" id="loveWhenMissed"></div>
+    <div class="subsection-title" style="margin-top:2rem">Todas as suas linguagens — análise completa</div>
+    <div class="love-all-grid" id="loveNarrative"></div>
+  </div>
+
+  <!-- ═══ PERFIL INTEGRADO ═══ -->
+  <div class="results-block" id="block-integrated" style="max-width:980px;margin:0 auto;padding:0 1rem 3rem;border-top:1px solid var(--border)">
+    <div class="results-section-title" style="margin-top:2rem"><span class="tag">Síntese Final</span> Perfil Integrado — Quem você realmente é</div>
+    <div class="integrated-hero" id="integratedHero"></div>
+    <div class="subsection-title">Sua identidade comportamental completa</div>
+    <div class="profile-text-block" id="combinedProfile"></div>
+    <div class="subsection-title" style="margin-top:2rem">Suas maiores forças e pontos de atenção</div>
+    <div class="strengths-weaknesses" id="swGrid"></div>
+    <div class="subsection-title" style="margin-top:2rem">Carreira — ambiente e funções onde você prospera</div>
+    <div class="profile-text-block" id="careerBlock"></div>
+    <div class="subsection-title" style="margin-top:2rem">Seu estilo de liderança</div>
+    <div class="profile-text-block" id="leadershipBlock"></div>
+    <div class="subsection-title" style="margin-top:2rem">Relacionamentos — como você ama e como precisa ser amado(a)</div>
+    <div class="profile-text-block" id="relationshipsBlock"></div>
+    <div class="subsection-title" style="margin-top:2rem">Plano de desenvolvimento pessoal — próximos passos</div>
+    <div class="recommendations" id="recBlock"></div>
+    <div class="subsection-title" style="margin-top:2rem">Perguntas para reflexão profunda</div>
+    <div class="reflection-block" id="reflectionBlock"></div>
+  </div>
+
+  <div class="report-footer">
+    <div class="logo-tag" style="margin-bottom:10px">CIS Assessment · Relatório Gerado com Base nas Suas Respostas</div>
+    <p style="font-size:12px;color:var(--muted);max-width:640px;margin:0 auto 2rem;line-height:1.8">Este relatório integra as teorias de Marston, Jung, Spranger e Chapman para oferecer uma visão multidimensional da sua personalidade. Use-o como ponto de partida para o autoconhecimento — não como um rótulo definitivo. Você é sempre mais complexo e rico do que qualquer mapeamento pode capturar.</p>
+    <button class="print-btn" onclick="window.print()">↓ Imprimir / Salvar como PDF</button>
+  </div>
+
+</div>
+
+</div><!-- .page -->
+
+<script>
+const answers = {};
+let currentSection = 'intro';
+
+function selectMulti(key, val, el) {
+  const parent = el.closest('.question-block');
+  parent.querySelectorAll('.multi-opt').forEach(o => { o.classList.remove('selected'); o.querySelector('.multi-check').textContent = ''; });
+  el.classList.add('selected');
+  el.querySelector('.multi-check').textContent = '✓';
+  answers[key] = val;
+  parent.classList.add('answered');
+}
+function selectScale(key, val, el) {
+  const parent = el.closest('.question-block');
+  parent.querySelectorAll('.scale-btn').forEach(b => b.classList.remove('selected'));
+  el.classList.add('selected');
+  answers[key] = parseInt(val);
+  parent.classList.add('answered');
+}
+function selectRank(key, val, el) {
+  const parent = el.closest('.question-block');
+  parent.querySelectorAll('.rank-option').forEach(o => { o.classList.remove('selected'); });
+  el.classList.add('selected');
+  answers[key] = val;
+  parent.classList.add('answered');
+}
+const sectionOrder = ['intro','disc','jung','spranger','chapman'];
+const sectionMap = { intro:'sec-intro', disc:'sec-disc', jung:'sec-jung', spranger:'sec-spranger', chapman:'sec-chapman' };
+function updateProgress(sec) {
+  const idx = sectionOrder.indexOf(sec);
+  document.getElementById('progressFill').style.width = (idx/4*100) + '%';
+  document.getElementById('progressInfo').textContent = idx + ' / 4 módulos';
+  document.querySelectorAll('.sdot').forEach((d,i) => {
+    d.classList.remove('active','done');
+    if (i < idx-1) d.classList.add('done');
+    else if (i === idx-1) d.classList.add('active');
+  });
+}
+function goSection(sec) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.getElementById(sectionMap[sec]).classList.add('active');
+  currentSection = sec;
+  document.getElementById('progressBar').style.display = sec==='intro' ? 'none' : 'flex';
+  updateProgress(sec);
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function startAssessment() {
+  const name = document.getElementById('userName').value.trim();
+  if (!name) { document.getElementById('userName').focus(); return; }
+  goSection('disc');
+}
+
+/* ── SCORING ── */
+function calcDISC() {
+  let D=0,I=0,S=0,C=0;
+  const m=(k,a,b,c,d)=>{const v=answers[k];if(v==='A')D+=a;else if(v==='B')I+=b;else if(v==='C')S+=c;else if(v==='D')C+=d;};
+  m('disc_1',3,3,3,3); m('disc_2',3,3,3,3); m('disc_4',3,3,3,3); m('disc_6',3,3,3,3);
+  D+=(answers['disc_3']||3); I+=(answers['disc_5']||3); S+=(answers['disc_7']||3); C+=(answers['disc_8']||3);
+  const total=D+I+S+C||1;
+  return {D:Math.round(D/total*100),I:Math.round(I/total*100),S:Math.round(S/total*100),C:Math.round(C/total*100)};
+}
+function calcJung() {
+  let ei=(answers['jung_2']||3); if(answers['jung_1']==='I') ei+=3; else ei+=1;
+  let sn=(answers['jung_4']||3); if(answers['jung_3']==='N') sn+=3; else sn+=1;
+  let tf=(answers['jung_6']||3); if(answers['jung_5']==='F') tf+=3; else tf+=1;
+  let jp=(answers['jung_8']||3); if(answers['jung_7']==='J') jp+=3; else jp+=1;
+  const mk=(s,max,rL,rR,lL,lR)=>({score:s,max,pct:Math.round(s/max*100),letter:s>max/2?rR:rL,label:s>max/2?lR:lL});
+  return {
+    EI: mk(ei,8,'E','I','Extrovertido','Introvertido'),
+    SN: mk(sn,8,'S','N','Sensorial','Intuitivo'),
+    TF: mk(tf,8,'T','F','Pensamento','Sentimental'),
+    JP: mk(jp,8,'J','P','Julgamento','Percepção')
+  };
+}
+function calcSpranger() {
+  const b={T:0,E:0,Es:0,S:0,P:0,R:0};
+  const r1=answers['spr_1']; if(r1) b[r1]+=4;
+  b.T+=(answers['spr_2']||3); b.E+=(answers['spr_3']||3); b.Es+=(answers['spr_4']||3);
+  b.S+=(answers['spr_5']||3); b.P+=(answers['spr_6']||3); b.R+=(answers['spr_7']||3);
+  const total=Object.values(b).reduce((a,c)=>a+c,0)||1;
+  return Object.fromEntries(Object.entries(b).map(([k,v])=>[k,Math.round(v/total*100)]));
+}
+function calcLove() {
+  const b={W:0,A:0,G:0,T:0,P:0};
+  [['chap_1',3],['chap_2',3],['chap_8',3]].forEach(([k,w])=>{const v=answers[k];if(v)b[v]+=w;});
+  b.W+=(answers['chap_3']||3); b.A+=(answers['chap_4']||3); b.G+=(answers['chap_5']||3);
+  b.T+=(answers['chap_6']||3); b.P+=(answers['chap_7']||3);
+  const total=Object.values(b).reduce((a,c)=>a+c,0)||1;
+  return Object.fromEntries(Object.entries(b).map(([k,v])=>[k,Math.round(v/total*100)]));
+}
+
+/* ── GENERATE ── */
+function generateResults() {
+  const name = document.getElementById('userName').value.trim() || 'Você';
+  const disc = calcDISC();
+  const jung = calcJung();
+  const spr  = calcSpranger();
+  const love = calcLove();
+
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.getElementById('progressBar').style.display='none';
+  document.getElementById('results').style.display='block';
+  document.getElementById('resultName').textContent = name;
+  const now = new Date();
+  document.getElementById('reportDate').textContent = 'Relatório gerado em ' + now.toLocaleDateString('pt-BR',{day:'2-digit',month:'long',year:'numeric'});
+  window.scrollTo({top:0,behavior:'smooth'});
+
+  const sortedDisc = Object.entries(disc).sort((a,b)=>b[1]-a[1]);
+  const domDisc = sortedDisc[0][0];
+  const secDisc = sortedDisc[1][0];
+  const jungType = jung.EI.letter+jung.SN.letter+jung.TF.letter+jung.JP.letter;
+  const sortedSpr = Object.entries(spr).sort((a,b)=>b[1]-a[1]);
+  const topVal = sortedSpr[0][0];
+  const sortedLove = Object.entries(love).sort((a,b)=>b[1]-a[1]);
+  const topLove = sortedLove[0][0];
+
+  /* ── ARCHETYPE ── */
+  const archetypes={D:'Executor Visionário',I:'Comunicador Inspirador',S:'Guardião dos Vínculos',C:'Analista Estratégico'};
+  document.getElementById('archetypeTag').textContent = archetypes[domDisc] + ' · Tipo ' + jungType;
+
+  /* ── SUMMARY ── */
+  const discInfo={D:{name:'Dominância',color:'#c0392b'},I:{name:'Influência',color:'#e67e22'},S:{name:'Estabilidade',color:'#27ae60'},C:{name:'Conformidade',color:'#2980b9'}};
+  const valInfo={T:{name:'Teórico',color:'#3498db'},E:{name:'Econômico',color:'#f39c12'},Es:{name:'Estético',color:'#e74c3c'},S:{name:'Social',color:'#2ecc71'},P:{name:'Político',color:'#9b59b6'},R:{name:'Religioso',color:'#1abc9c'}};
+  const loveInfo={W:{name:'Palavras de Afirmação',icon:'◇',color:'#e84393'},A:{name:'Atos de Serviço',icon:'◈',color:'#ff6b35'},G:{name:'Presentes',icon:'◆',color:'#c9a96e'},T:{name:'Tempo de Qualidade',icon:'◉',color:'#00bcd4'},P:{name:'Toque Físico',icon:'♡',color:'#7c4dff'}};
+
+  document.getElementById('summaryStrip').innerHTML=`
+    <div class="summary-card"><div class="summary-card-icon" style="color:${discInfo[domDisc].color}">◈</div><div><div class="summary-card-label">DISC Dominante</div><div class="summary-card-value">${discInfo[domDisc].name} (${disc[domDisc]}%)</div><div class="summary-card-sub">Secundário: ${discInfo[secDisc].name} (${disc[secDisc]}%)</div></div></div>
+    <div class="summary-card"><div class="summary-card-icon" style="color:#8e44ad">◉</div><div><div class="summary-card-label">Tipo Jungiano</div><div class="summary-card-value">${jungType}</div><div class="summary-card-sub">${jung.EI.label} · ${jung.SN.label}</div></div></div>
+    <div class="summary-card"><div class="summary-card-icon" style="color:${valInfo[topVal].color}">◆</div><div><div class="summary-card-label">Valor Dominante</div><div class="summary-card-value">${valInfo[topVal].name} (${spr[topVal]}%)</div><div class="summary-card-sub">Spranger · Motivador primário</div></div></div>
+    <div class="summary-card"><div class="summary-card-icon" style="color:${loveInfo[topLove].color}">${loveInfo[topLove].icon}</div><div><div class="summary-card-label">Linguagem do Amor</div><div class="summary-card-value">${loveInfo[topLove].name}</div><div class="summary-card-sub">Linguagem primária · Chapman</div></div></div>
+  `;
+
+  /* ── INTRO ── */
+  const introTexts={
+    D:`Você é alguém que <em>move o mundo quando tem um objetivo</em>. Sua mente processa rápido, seu corpo age antes de muitos ainda estarem pensando, e sua presença em um ambiente costuma ser sentida — não pelo barulho, mas pela intensidade. Este relatório vai te ajudar a entender por que você age como age, o que te motiva nas profundezas, e como suas linguagens internas de amor e valores moldam cada escolha sua.`,
+    I:`Você é alguém que <em>ilumina os ambientes que entra</em>. Sua forma de se conectar com pessoas é natural, sua energia inspira, e você tem um talento genuíno para fazer os outros se sentirem especiais. Este relatório mergulha em por que você é assim, o que te move nas profundezas — e onde estão seus pontos cegos mais importantes para crescer.`,
+    S:`Você é alguém em quem as pessoas <em>instintivamente confiam</em>. Sua presença cria segurança. Você é o tipo de pessoa que sustenta equipes, relacionamentos e famílias — muitas vezes sem que os outros percebam o quanto dependem de você. Este relatório vai revelar suas forças mais profundas, seus valores ocultos e como sua linguagem do amor molda tudo ao seu redor.`,
+    C:`Você é alguém que <em>enxerga o que os outros não veem</em>. Sua mente analítica captura padrões, inconsistências e possibilidades com uma precisão que poucos possuem. Você não age por impulso — você pensa, planeja e age com propósito. Este relatório vai explorar as camadas da sua personalidade com a profundidade que você merece.`
+  };
+  document.getElementById('reportIntro').innerHTML = `<p>${introTexts[domDisc]}</p><p>Nas próximas seções, você verá sua <em>configuração DISC completa</em>, seu <em>tipo psicológico Jungiano (${jungType})</em>, sua <em>hierarquia de valores de Spranger</em> e suas <em>linguagens do amor segundo Chapman</em> — tudo integrado em um perfil único que é especificamente seu.</p>`;
+
+  /* ══════════════════ DISC RENDER ══════════════════ */
+  const discColors={D:'#c0392b',I:'#e67e22',S:'#27ae60',C:'#2980b9'};
+  const discNames={D:'Dominância',I:'Influência',S:'Estabilidade',C:'Conformidade'};
+  const discKeywords={D:'Resultado · Ação · Controle · Desafio',I:'Conexão · Entusiasmo · Reconhecimento · Influência',S:'Harmonia · Lealdade · Consistência · Colaboração',C:'Precisão · Qualidade · Análise · Excelência'};
+  const discShort={D:'Direto, decisivo, orientado a resultados. Age com confiança mesmo sob pressão.',I:'Carismático, persuasivo, entusiasmado. Cria conexões genuínas com facilidade.',S:'Paciente, leal, colaborativo. Cria ambientes seguros e promove harmonia.',C:'Analítico, sistemático, preciso. Garante qualidade e rigor em tudo que faz.'};
+  let discHTML='';
+  ['D','I','S','C'].forEach(k=>{
+    discHTML+=`<div class="disc-card ${k}">
+      <div class="disc-letter">${k}</div>
+      <div class="disc-name">${discNames[k]}</div>
+      <div class="disc-bar-track"><div class="disc-bar-fill" style="width:0%" data-target="${disc[k]}%"></div></div>
+      <div class="disc-score">${disc[k]}%</div>
+      <div class="disc-desc">${discShort[k]}</div>
+      <div style="margin-top:10px;font-size:10px;color:var(--muted);letter-spacing:0.5px">${discKeywords[k]}</div>
+    </div>`;
+  });
+  document.getElementById('discResults').innerHTML=discHTML;
+
+  /* DISC NARRATIVES */
+  const discNarratives={
+    D:`<p>Sua dimensão <strong>Dominante é a mais alta do seu perfil</strong> — e isso diz muito sobre como você opera no mundo. Você é movido por resultados. Enquanto outras pessoas ainda estão deliberando sobre o que fazer, você já está no meio da ação. Sua capacidade de tomar decisões rápidas, mesmo com informações incompletas, é uma vantagem competitiva significativa em ambientes de alta pressão.</p>
+    <p>Seu perfil DISC <strong>${domDisc}${secDisc}</strong> significa que você combina a força executora do D com a energia complementar do ${secDisc === 'I' ? 'Influente — você age e convence' : secDisc === 'S' ? 'Estável — você age com consciência do impacto nas pessoas' : 'Conforme — você age com rigor e planejamento'}. Esta é uma combinação rara e poderosa.</p>
+    <p>Uma coisa que você precisa reconhecer: <strong>nem todos processam o mundo na sua velocidade</strong>. Sua impaciência com quem é mais lento pode ser interpretada como falta de respeito ou empatia — mesmo que não seja sua intenção. Aprender a calibrar seu ritmo para o contexto é um dos maiores saltos de liderança que você pode dar.</p>`,
+    I:`<p>Sua dimensão <strong>Influente é a mais alta do seu perfil</strong> — e quem convive com você sente isso. Você tem um dom natural para criar conexão. Pessoas ao seu redor tendem a se abrir, se animar e se comprometer com mais facilidade. Sua energia é genuinamente contagiante e sua capacidade de ler o estado emocional de um grupo é excepcional.</p>
+    <p>Seu perfil DISC <strong>${domDisc}${secDisc}</strong> significa que você combina o charme comunicativo do I com a força complementar do ${secDisc === 'D' ? 'Dominante — você inspira e entrega resultados' : secDisc === 'S' ? 'Estável — você conecta com profundidade e lealdade' : 'Conforme — você inspira com base e consistência'}. Quando esta combinação opera bem, você consegue engajar pessoas em projetos complexos como ninguém.</p>
+    <p>Seu ponto cego mais importante: <strong>o compromisso com entregas concretas</strong>. Você adora começar — a energia do início, a conexão, o entusiasmo. Mas manter o foco quando a novidade diminui pode ser desafiador. Desenvolver sistemas de acompanhamento é o que separa o talento influente da excelência sustentável.</p>`,
+    S:`<p>Sua dimensão <strong>Estável é a mais alta do seu perfil</strong> — e isso explica por que as pessoas gravitam em torno de você quando as coisas ficam difíceis. Você não precisa gritar para ser ouvido. Sua presença cria um campo de segurança psicológica que poucos conseguem replicar. Pessoas confiam em você naturalmente — porque você é consistente, previsível no bom sentido, e genuinamente se importa.</p>
+    <p>Seu perfil DISC <strong>${domDisc}${secDisc}</strong> significa que você combina a solidez do S com a energia complementar do ${secDisc === 'D' ? 'Dominante — você cuida e entrega' : secDisc === 'I' ? 'Influente — você acolhe e conecta com calor' : 'Conforme — você sustenta com qualidade e atenção'}. Esta combinação é a base de qualquer equipe de alta performance.</p>
+    <p>Seu desafio mais importante: <strong>aprender a se posicionar mesmo quando há risco de conflito</strong>. Você tem opiniões claras — mas tende a guardá-las para preservar a harmonia. O problema é que, ao longo do tempo, isso pode gerar ressentimento acumulado. A assertividade saudável não quebra relacionamentos — ela os aprofunda.</p>`,
+    C:`<p>Sua dimensão <strong>Conforme é a mais alta do seu perfil</strong> — e isso significa que você opera com um padrão de excelência que muitos simplesmente não conseguem acompanhar. Você nota o que os outros ignoram. Você questiona o que os outros aceitam. Sua mente é uma máquina de detecção de inconsistências, e quando aplicada bem, essa capacidade evita erros caros e cria sistemas robustos.</p>
+    <p>Seu perfil DISC <strong>${domDisc}${secDisc}</strong> significa que você combina a precisão do C com a força complementar do ${secDisc === 'D' ? 'Dominante — você analisa e executa' : secDisc === 'I' ? 'Influente — você pensa e comunica com clareza' : 'Estável — você planeja e sustenta com consistência'}. Quando esta combinação funciona bem, você entrega trabalho de qualidade superior de forma sustentável.</p>
+    <p>Seu maior desafio: <strong>a paralisia por análise e o medo do erro</strong>. Sua busca por perfeição é uma virtude — mas pode se tornar um obstáculo quando o mercado exige velocidade. "Feito" muitas vezes é mais valioso que "perfeito". Aprender a tomar decisões com 70% das informações é uma habilidade crítica para o seu crescimento.</p>`
+  };
+  document.getElementById('discNarrative').innerHTML = discNarratives[domDisc];
+
+  /* DISC CONTEXTS */
+  const ctxData={
+    D:{work:'Assume o comando naturalmente. Prefere projetos desafiadores com liberdade para decidir. Pode atropelar processos quando acredita que sabe o caminho certo.',conflict:'Enfrenta conflitos diretamente, às vezes de forma abrupta. Não evita confronto — pode até buscá-lo.',stress:'Fica impaciente, controlador ou explosivo. Precisa de ação para descarregar a tensão.',team:'Lidera pela força da visão e da execução. Melhor quando tem autonomia e metas claras.'},
+    I:{work:'Brilha em ambientes colaborativos e dinâmicos. Cria entusiasmo ao redor de projetos. Pode se perder nos detalhes ou em múltiplas frentes ao mesmo tempo.',conflict:'Tende a suavizar conflitos, às vezes evitando conversas difíceis necessárias. Prefere harmonia.',stress:'Fica ansioso, falante demais ou busca distrações sociais. Precisa de conexão para se regular.',team:'Cria clima positivo e engajamento genuíno. Melhor quando há liberdade criativa e reconhecimento.'},
+    S:{work:'Consistente, confiável e comprometido. Prefere ambientes estáveis com processos claros. Pode resistir a mudanças repentinas mesmo quando necessárias.',conflict:'Evita conflito ativamente. Pode absorver tensão sem expressar, gerando ressentimento acumulado.',stress:'Fica retraído, indeciso ou excessivamente conciliador. Precisa de segurança e tempo para processar.',team:'O sustentáculo da equipe. Melhor quando há clareza de papéis e ambiente respeitoso.'},
+    C:{work:'Entrega trabalho de alta qualidade e identificar problemas antes de ocorrerem. Pode demorar demais analisando antes de agir.',conflict:'Aborda conflitos de forma lógica e racional. Pode parecer frio ou distante emocionalmente.',stress:'Fica excessivamente crítico, perfeccionista ou se isola. Precisa de clareza e controle do ambiente.',team:'Eleva o padrão de qualidade da equipe. Melhor quando tem autonomia técnica e prazos realistas.'}
+  };
+  const ctx=ctxData[domDisc];
+  document.getElementById('discContexts').innerHTML=`
+    <div class="context-card"><div class="context-card-title">No Trabalho</div><div class="context-card-text">${ctx.work}</div></div>
+    <div class="context-card"><div class="context-card-title">Em Conflitos</div><div class="context-card-text">${ctx.conflict}</div></div>
+    <div class="context-card"><div class="context-card-title">Sob Estresse</div><div class="context-card-text">${ctx.stress}</div></div>
+    <div class="context-card"><div class="context-card-title">Em Equipe</div><div class="context-card-text">${ctx.team}</div></div>
+  `;
+
+  /* DISC ENERGY */
+  const enData={
+    D:{e:['Desafios que exigem decisões rápidas','Projetos com alto impacto e visibilidade','Competição saudável e metas ambiciosas','Autonomia para tomar decisões sem burocracia','Ambientes onde seus resultados são reconhecidos'],d:['Reuniões longas sem decisões concretas','Microgestão ou supervisão excessiva','Processos lentos e burocracia desnecessária','Trabalho repetitivo sem propósito de crescimento','Falta de clareza sobre metas e expectativas']},
+    I:{e:['Interações sociais ricas e variadas','Projetos criativos com impacto visível','Apresentações e momentos de comunicação','Reconhecimento público das suas contribuições','Ambientes dinâmicos com novidade constante'],d:['Trabalho solitário por longos períodos','Tarefas rotineiras e repetitivas','Falta de feedback ou reconhecimento','Ambientes frios, formais ou hostis','Reuniões sem espaço para sua contribuição']},
+    S:{e:['Relações profundas e duradouras','Projetos de longo prazo com propósito claro','Ambientes previsíveis e harmoniosos','Quando suas contribuições são genuinamente valorizadas','Colaboração próxima com pessoas em quem confia'],d:['Mudanças abruptas sem aviso ou explicação','Conflitos interpessoais não resolvidos','Pressão para decidir sem tempo de processar','Ambientes competitivos e individualistas','Quando se sente ignorado ou descartado']},
+    C:{e:['Análise de dados e resolução de problemas complexos','Projetos que exigem precisão e profundidade','Quando tem tempo e recursos para fazer bem feito','Autonomia intelectual e respeito pela sua expertise','Ambientes com padrões claros e expectativas definidas'],d:['Erros ou imprecisões — seus e alheios','Pressão para decidir com dados insuficientes','Ambientes caóticos ou desorganizados','Quando seu trabalho não é reconhecido em qualidade','Feedback superficial sem argumentos concretos']}
+  };
+  const en=enData[domDisc];
+  let egrHTML=`<div class="energy-card energize"><div class="energy-title">O que te energiza</div>`;
+  en.e.forEach(x=>{egrHTML+=`<div class="energy-item">${x}</div>`;});
+  egrHTML+=`</div><div class="energy-card drain"><div class="energy-title">O que te drena</div>`;
+  en.d.forEach(x=>{egrHTML+=`<div class="energy-item">${x}</div>`;});
+  egrHTML+=`</div>`;
+  document.getElementById('discEnergy').innerHTML=egrHTML;
+
+  /* DISC SW */
+  const swData={
+    D:{s:['Liderança decisiva e orientação a resultados','Alta capacidade de execução sob pressão intensa','Coragem para tomar decisões difíceis','Foco e determinação para superar obstáculos','Iniciativa e autonomia — age sem precisar ser empurrado','Capacidade de simplificar o complexo e ir ao ponto'],c:['Impaciência com processos e pessoas mais lentas','Pode desconsiderar o impacto emocional nas pessoas','Tendência a assumir controle em excesso','Dificuldade em aceitar críticas sem defensividade','Pode atropelar processos importantes na pressa','Dificuldade em delegar e confiar nos outros']},
+    I:{s:['Comunicação persuasiva e entusiasta','Capacidade natural de motivar e engajar','Facilidade para construir rapport rapidamente','Criatividade e pensamento fora da caixa','Energia contagiante que eleva o grupo','Habilidade de ler o ambiente emocional com precisão'],c:['Falta de foco e dificuldade de concluir projetos','Evita conflitos necessários por medo de rejeição','Impulsividade — diz sim antes de pensar','Pode superestimar o entusiasmo alheio','Dificuldade com detalhes, processos e rotina','Precisa de validação externa para se sentir seguro']},
+    S:{s:['Lealdade e comprometimento inabalável','Cria segurança psicológica para as pessoas','Paciência genuína e escuta ativa de qualidade','Consistência — as pessoas sabem o que esperar de você','Habilidade de manter a calma em situações tensas','Empatia profunda e cuidado com as pessoas'],c:['Resistência a mudanças — mesmo quando necessárias','Guarda as próprias necessidades para si','Dificuldade em confrontar mesmo quando preciso','Pode se sacrificar demais pelo grupo','Dificuldade em dizer não — sobrecarga emocional','Pode demorar demais para tomar decisões']},
+    C:{s:['Raciocínio analítico e pensamento crítico aguçado','Atenção aos detalhes que outros ignoram','Capacidade de identificar riscos antes de ocorrerem','Planejamento sistemático e rigoroso','Alto padrão de qualidade em tudo que faz','Tomada de decisão baseada em dados e lógica'],c:['Paralisia por análise — dificuldade de agir','Perfeccionismo que pode atrasar entregas','Pode parecer frio, distante ou crítico demais','Dificuldade com ambiguidade e imprecisão','Pode ser inflexível com processos e padrões','Tende a ser excessivamente autocrítico']}
+  };
+  const sw=swData[domDisc];
+  let swHTML=`<div class="sw-card strong"><div class="sw-title">Seus Pontos Fortes</div>`;
+  sw.s.forEach(x=>{swHTML+=`<div class="sw-item">${x}</div>`;});
+  swHTML+=`</div><div class="sw-card caution"><div class="sw-title">Pontos de Atenção</div>`;
+  sw.c.forEach(x=>{swHTML+=`<div class="sw-item">${x}</div>`;});
+  swHTML+=`</div>`;
+  document.getElementById('discSW').innerHTML=swHTML;
+
+  /* DISC RECOGNITION */
+  const recData={
+    D:`<p>Você provavelmente se reconhece quando alguém diz: <em>"Você é muito direto"</em> — e você interpreta isso como elogio enquanto a outra pessoa queria que fosse uma crítica. Você também deve se reconhecer na sensação de <strong>frustração quando as coisas não andam</strong>, ou na tendência de assumir projetos que poderiam ser de outro porque você acredita que fará mais rápido.</p>
+       <p>Você provavelmente já ouviu que precisa "ter mais paciência" ou "ouvir mais as pessoas" — e internamente sente que ouve o suficiente, que o problema é que as pessoas demoram demais. <strong>Esse é exatamente o paradoxo do perfil Dominante</strong>: sua maior força (velocidade e decisão) é também o que cria seu maior atrito com o mundo.</p>`,
+    I:`<p>Você provavelmente se reconhece na sala que se ilumina quando você entra — ou na sensação desconfortável quando você está em um grupo e <strong>não consegue "ler" como as pessoas estão se sentindo</strong>. Você se importa muito com o que os outros pensam de você, mesmo que pareça confiante por fora.</p>
+       <p>Você também deve se reconhecer no padrão de <strong>começar projetos com enorme entusiasmo que vai diminuindo com o tempo</strong>, ou na tendência de prometer mais do que consegue entregar porque quer agradar e não quer decepcionar. Isso não é fraqueza — é parte do seu perfil. A consciência é o primeiro passo para mudar o padrão.</p>`,
+    S:`<p>Você provavelmente se reconhece na sensação de <strong>desconforto quando há conflito ao seu redor</strong> — mesmo que não seja seu. Você tende a querer resolver, mediar ou simplesmente sair do ambiente. Você também deve se reconhecer na quantidade de vezes que disse "tudo bem" quando não estava tudo bem.</p>
+       <p>Você provavelmente já sentiu que <strong>dá muito mais do que recebe</strong> em vários de seus relacionamentos — e raramente pede ajuda, mesmo quando precisa. Essa generosidade silenciosa é uma das suas maiores virtudes, mas sem limites saudáveis pode se tornar uma fonte de esgotamento profundo.</p>`,
+    C:`<p>Você provavelmente se reconhece na dificuldade de <strong>entregar algo que "poderia ser melhor"</strong>, mesmo quando a data limite passou. Você também deve se reconhecer na irritação interna quando alguém apresenta um trabalho cheio de imprecisões com total confiança — enquanto você duvida do seu próprio trabalho mesmo quando é excelente.</p>
+       <p>Você provavelmente já foi chamado de <strong>"difícil" ou "exigente demais"</strong> — e internamente pensa que os outros simplesmente não têm padrão. Ambos têm razão à sua maneira. O desafio é encontrar o ponto de equilíbrio entre excelência e pragmatismo que permita que você entregue, avance e cresça sem se paralisar.</p>`
+  };
+  document.getElementById('discRecognition').innerHTML=recData[domDisc];
+
+  /* ══════════════════ JUNG RENDER ══════════════════ */
+  const jungPairs=[
+    {key:'EI',left:'Extrovertido',right:'Introvertido',c1:'#8e44ad',c2:'#2c3e50'},
+    {key:'SN',left:'Sensorial',right:'Intuitivo',c1:'#16a085',c2:'#d35400'},
+    {key:'TF',left:'Pensamento',right:'Sentimental',c1:'#2980b9',c2:'#c0392b'},
+    {key:'JP',left:'Julgamento',right:'Percepção',c1:'#27ae60',c2:'#f39c12'}
+  ];
+  let jungHTML='';
+  jungPairs.forEach(p=>{
+    const d=jung[p.key];const pct=d.pct;const isR=pct>50;
+    const fc=isR?p.c2:p.c1;const fp=isR?pct:(100-pct);
+    jungHTML+=`<div class="jung-pair">
+      <div class="jung-label">${p.left} ↔ ${p.right}</div>
+      <div class="jung-pair-row">
+        <div class="jung-pole">${p.left}</div>
+        <div class="jung-slider-track">
+          <div class="jung-slider-fill" style="background:${fc};left:${isR?100-fp+'%':'0'};width:${fp}%"></div>
+          <div class="jung-marker" style="background:${fc};left:${pct}%"></div>
+        </div>
+        <div class="jung-pole right">${p.right}</div>
+      </div>
+      <div style="margin-top:10px">
+        <span class="jung-result-tag" style="background:${fc}22;color:${fc};border:1px solid ${fc}44">${d.label}</span>
+        <span style="font-size:12px;color:var(--muted);margin-left:10px">Intensidade: ${Math.round(Math.abs(pct-50)*2)}%</span>
+      </div>
+    </div>`;
+  });
+  document.getElementById('jungResults').innerHTML=jungHTML;
+
+  /* JUNG TYPE HERO */
+  const jungTypes={
+    INTJ:{name:'O Arquiteto',motto:'Mente estratégica com visão de longo prazo. Independente, determinado e com altos padrões para si mesmo e para o mundo.'},
+    INTP:{name:'O Lógico',motto:'Pensador inovador com sede insaciável de conhecimento. Ama teorias e busca padrões em tudo.'},
+    ENTJ:{name:'O Comandante',motto:'Líder nato com visão clara e capacidade de inspirar e organizar pessoas rumo a objetivos ambiciosos.'},
+    ENTP:{name:'O Debatedor',motto:'Intelectualmente curioso, criativo e sempre pronto para questionar o status quo com argumentos afiados.'},
+    INFJ:{name:'O Advogado',motto:'Idealista raro com profunda empatia e visão clara de como o mundo poderia ser melhor.'},
+    INFP:{name:'O Mediador',motto:'Sonhador apaixonado que busca dar sentido ao mundo através de valores profundos e criatividade.'},
+    ENFJ:{name:'O Protagonista',motto:'Líder carismático e empático que naturalmente inspira e eleva as pessoas ao seu redor.'},
+    ENFP:{name:'O Ativista',motto:'Entusiasta criativo que enxerga conexões onde outros veem caos, sempre movido por possibilidades.'},
+    ISTJ:{name:'O Logístico',motto:'Confiável, metódico e dedicado. A pedra angular de qualquer organização que valorize consistência.'},
+    ISFJ:{name:'O Defensor',motto:'Cuidador silencioso e dedicado que sustenta comunidades com lealdade e atenção genuína.'},
+    ESTJ:{name:'O Executivo',motto:'Organizador nato que aplica ordem, lógica e tradição para estruturar o mundo ao seu redor.'},
+    ESFJ:{name:'O Cônsul',motto:'Atencioso e sociável, move-se naturalmente para criar harmonia e cuidar das pessoas próximas.'},
+    ISTP:{name:'O Virtuoso',motto:'Observador habilidoso que aprende fazendo e resolve problemas com maestria técnica pragmática.'},
+    ISFP:{name:'O Aventureiro',motto:'Artista sensível e espontâneo que experimenta o mundo através dos sentidos e da beleza.'},
+    ESTP:{name:'O Empreendedor',motto:'Energético e perceptivo, adora estar no centro da ação e aproveitar oportunidades à sua frente.'},
+    ESFP:{name:'O Animador',motto:'Espontâneo, entusiasmado e sociável — o centro das atenções que torna qualquer momento memorável.'}
+  };
+  const jt=jungTypes[jungType]||{name:'Perfil Único',motto:'Sua combinação de preferências cria um estilo cognitivo singular e multifacetado.'};
+  document.getElementById('jungTypeHero').innerHTML=`
+    <div class="jung-type-letters">${jungType}</div>
+    <div class="jung-type-name">${jt.name}</div>
+    <div class="jung-type-motto">${jt.motto}</div>
+  `;
+
+  /* JUNG DIMENSIONS */
+  const dimData={
+    EI:{
+      E:{badge:'Extrovertido',color:'#8e44ad',text:`Você <strong>carrega energia das interações externas</strong>. Conversas, grupos, estímulos do ambiente — tudo isso te recarrega. Você tende a pensar falando, a processar em voz alta, e a se sentir energizado depois de eventos sociais que extenuam introvertidos. Sua tendência é agir e depois refletir. Você pode se sentir inquieto quando passa muito tempo sozinho, e às vezes fala antes de pensar completamente.`},
+      I:{badge:'Introvertido',color:'#2c3e50',text:`Você <strong>carrega energia do espaço interno</strong>. Solidão, reflexão, profundidade — essas são suas condições naturais de reabastecimento. Você processa as coisas internamente antes de expressar, o que pode fazer você parecer quieto em grupos mas extraordinariamente profundo nas conversas individuais. Após muita interação social, você precisa de tempo sozinho para se reorganizar. Isso não é timidez — é arquitetura mental.`}
+    },
+    SN:{
+      S:{badge:'Sensorial',color:'#16a085',text:`Você <strong>confia no que pode ver, tocar, medir e confirmar</strong>. Você prefere fatos concretos a teorias abstratas, experiências passadas a possibilidades futuras, e realidade prática a especulação. Você é excelente na execução — garante que as coisas realmente aconteçam, não apenas que sejam bem planejadas. Pode ter dificuldade com visões muito abstratas ou futuristas sem ancoragem prática.`},
+      N:{badge:'Intuitivo',color:'#d35400',text:`Você <strong>confia em padrões, intuições e possibilidades</strong>. Sua mente naturalmente vai além do presente — você enxerga conexões entre coisas aparentemente não relacionadas, anticipa desenvolvimentos futuros e se sente mais vivo quando está explorando o que poderia ser. Você pode se entediar com rotina e detalhe excessivo, preferindo o quadro maior. Às vezes pula etapas importantes por confiar demais na intuição.`}
+    },
+    TF:{
+      T:{badge:'Pensamento',color:'#2980b9',text:`Você <strong>toma decisões a partir de lógica, princípios e análise objetiva</strong>. Você é justo por ser consistente — aplica as mesmas regras para todos. Você consegue tomar decisões difíceis sem se deixar paralisar pela emoção, o que é uma força enorme em situações de crise ou negociação. Pode ser percebido como insensível por quem valoriza mais a dimensão emocional, mesmo quando sua intenção é apenas ser eficiente.`},
+      F:{badge:'Sentimental',color:'#c0392b',text:`Você <strong>toma decisões considerando valores, impactos humanos e harmonia relacional</strong>. Você não ignora a lógica — mas ela precisa ser reconciliada com o impacto nas pessoas. Você tem uma empatia natural que faz você um comunicador e mediador excepcional. Pode ter dificuldade em tomar decisões que beneficiam a maioria mas machucam alguém próximo. Critica-se quando decide "racionalmente" e alguém se fere.`}
+    },
+    JP:{
+      J:{badge:'Julgamento',color:'#27ae60',text:`Você <strong>prefere estrutura, planejamento e decisões finalizadas</strong>. Você se sente mais confortável quando há um plano claro, prazos definidos e conclusões tomadas. Você é excelente para criar ordem a partir do caos e garantir que projetos cheguem ao fim. Pode ficar ansioso com imprevisto excessivo, e às vezes fecha planos cedo demais antes de ter todas as informações disponíveis.`},
+      P:{badge:'Percepção',color:'#f39c12',text:`Você <strong>prefere flexibilidade, opções em aberto e adaptação contínua</strong>. Você se sente vivo quando tem liberdade de responder ao que emerge em vez de seguir um roteiro fixo. Excelente para improvisar, adaptar e encontrar soluções criativas on-the-fly. Pode ter dificuldade com prazos rígidos e tende a deixar decisões em aberto mais do que o necessário. Muitas vezes produz seu melhor trabalho sob pressão de última hora.`}
+    }
+  };
+  let dimHTML='';
+  ['EI','SN','TF','JP'].forEach(k=>{
+    const d=jung[k];const info=dimData[k][d.letter];
+    dimHTML+=`<div class="dimension-block">
+      <div class="dimension-header">
+        <span class="dimension-badge" style="background:${info.color}22;color:${info.color};border:1px solid ${info.color}44">${info.badge}</span>
+        <span class="dimension-pct">${d.pct > 50 ? d.pct : 100-d.pct}% de intensidade</span>
+      </div>
+      <div class="dimension-body">${info.text}</div>
+    </div>`;
+  });
+  document.getElementById('jungDimensions').innerHTML=dimHTML;
+
+  /* JUNG NARRATIVE */
+  const jungNarr={
+    IT:`<p>Como <strong>${jung.EI.letter === 'I' ? 'Introvertido' : 'Extrovertido'}</strong> com função de <strong>Pensamento</strong>, você processa o mundo de forma analítica e precisa. Suas decisões são fundamentadas em lógica rigorosa, e você tende a confiar mais em análise do que em impulso emocional. Isso te torna extraordinariamente confiável em situações que exigem precisão — mas pode criar distância em relacionamentos que pedem mais afetividade.</p>
+    <p>Combinado com sua dimensão <strong>${jung.SN.label}</strong>, você tende a ser ${jung.SN.letter === 'N' ? 'um pensador estratégico que antecipa cenários e conecta padrões complexos com facilidade' : 'um executor prático que confia em dados concretos e experiências verificadas'}. Esta é uma combinação que produz excelência técnica e intelectual quando canalizada com propósito.</p>`,
+    IF:`<p>Como <strong>${jung.EI.letter === 'I' ? 'Introvertido' : 'Extrovertido'}</strong> com função de <strong>Sentimento</strong>, você tem uma profundidade emocional e empatia que são genuinamente raras. Você sente o estado dos outros com precisão quase intuitiva, e suas decisões levam em conta não apenas o que é lógico mas o que é humano e justo. Este é um superpoder relacional.</p>
+    <p>Combinado com sua dimensão <strong>${jung.SN.label}</strong>, você é ${jung.SN.letter === 'N' ? 'um visionário com profunda consciência das pessoas — capaz de inspirar e mover grupos com autenticidade' : 'alguém que cuida com ações concretas e presença real, não apenas com boas intenções'}. Sua combinação cria líderes e comunicadores memoráveis.</p>`
+  };
+  const jungKey = jung.TF.letter === 'T' ? 'IT' : 'IF';
+  document.getElementById('jungNarrative').innerHTML = jungNarr[jungKey];
+
+  /* JUNG LEARNING */
+  const learnItems=[
+    {icon:'◈',title:jung.SN.letter==='N'?'Aprende por conceitos':'Aprende por prática',text:jung.SN.letter==='N'?'Absorve melhor quando entende o "porquê" antes do "como". Teorias e modelos são sua porta de entrada.':'Absorve melhor fazendo e testando. Explicações teóricas longas te entediam — você quer colocar a mão na massa.'},
+    {icon:'◉',title:jung.EI.letter==='I'?'Processa internamente':'Processa externamente',text:jung.EI.letter==='I'?'Precisa de tempo para reflexão antes de responder. Não force respostas imediatas em situações complexas.':'Pensa falando. Discussões em grupo te ajudam a organizar ideias. Silêncio prolongado pode te bloquear.'},
+    {icon:'◆',title:jung.JP.letter==='J'?'Prefere estrutura':'Prefere autonomia',text:jung.JP.letter==='J'?'Aprende melhor com cronogramas claros, metas definidas e progresso mensurável.':'Aprende melhor com liberdade para explorar em sua própria ordem e ritmo. Estrutura rígida te frustra.'},
+    {icon:'♡',title:jung.TF.letter==='T'?'Motivado por lógica':'Motivado por significado',text:jung.TF.letter==='T'?'Você se engaja mais quando há coerência lógica e objetivos claros. Aprecia eficiência acima de tudo.':'Você se engaja mais quando há propósito humano claro. Impacto nas pessoas é seu motivador mais profundo.'}
+  ];
+  let lernHTML='';
+  learnItems.forEach(i=>{lernHTML+=`<div class="info-card"><div class="info-card-icon">${i.icon}</div><div class="info-card-title">${i.title}</div><div class="info-card-text">${i.text}</div></div>`;});
+  document.getElementById('jungLearning').innerHTML=lernHTML;
+
+  /* JUNG RELATIONS */
+  const relTexts={
+    IT:`<p>Em relacionamentos, você valoriza <strong>profundidade sobre quantidade</strong>. Prefere poucos vínculos sólidos a uma rede social extensa. Você demonstra cuidado por meio de ações e soluções — muitas vezes enquanto o outro espera palavras. Aprenda a verbalizar o que sente mesmo que pareça desnecessário para você: para muitas pessoas, ouvir é o que valida o amor.</p><p>Seu maior desafio relacional é a tendência de <strong>priorizar a lógica sobre as emoções</strong> em momentos de conflito — o que pode fazer a outra pessoa se sentir invalidada mesmo quando você tem razão. Desenvolver a prática de reconhecer o sentimento antes de apresentar a solução transforma sua qualidade relacional.</p>`,
+    IF:`<p>Em relacionamentos, você é um parceiro profundamente presente e atento. Você sente quando algo está errado antes de a pessoa falar. Você <strong>investe genuinamente nas pessoas que ama</strong> — às vezes esquecendo de se investir em si mesmo com a mesma intensidade. Aprenda a colocar seus limites sem culpa: cuidar de você não é egoísmo, é sustentabilidade relacional.</p><p>Seu maior desafio é a tendência de <strong>absorver os problemas emocionais alheios como seus</strong>, o que pode gerar exaustão emocional e ressentimento silencioso. Você precisa aprender a estar presente para os outros sem perder a si mesmo no processo.</p>`,
+    ET:`<p>Em relacionamentos, você é <strong>direto e eficiente</strong> — o que as pessoas interpretam como confiança e liderança. Você resolve problemas dos outros com velocidade e precisão. Seu desafio é lembrar que nem sempre as pessoas querem uma solução — às vezes elas precisam apenas ser ouvidas. Perguntar "você quer que eu ajude ou quer só desabafar?" é uma pergunta que pode transformar seus relacionamentos.</p>`,
+    EF:`<p>Em relacionamentos, você é <strong>naturalmente magnético e acolhedor</strong>. Você cria conexões com facilidade e genuinamente se importa com o bem-estar das pessoas ao seu redor. Seu desafio é aprender a se posicionar de forma mais assertiva — sua tendência de priorizar a harmonia pode fazer você ceder em situações onde deveria firmar sua posição.</p>`
+  };
+  const rk = (jung.EI.letter) + (jung.TF.letter);
+  document.getElementById('jungRelations').innerHTML = relTexts[rk] || relTexts['IT'];
+
+  /* ══════════════════ SPRANGER RENDER ══════════════════ */
+  const sprInfo={
+    T:{name:'Teórico',color:'#3498db',icon:'◈',rank:0},
+    E:{name:'Econômico',color:'#f39c12',icon:'◆',rank:0},
+    Es:{name:'Estético',color:'#e74c3c',icon:'◉',rank:0},
+    S:{name:'Social',color:'#2ecc71',icon:'♡',rank:0},
+    P:{name:'Político',color:'#9b59b6',icon:'◇',rank:0},
+    R:{name:'Religioso',color:'#1abc9c',icon:'◈',rank:0}
+  };
+  const sortedSprFull = Object.entries(spr).sort((a,b)=>b[1]-a[1]);
+  sortedSprFull.forEach(([k],i)=>{sprInfo[k].rank=i+1;});
+
+  let sprBarHTML='<div>';
+  sortedSprFull.forEach(([k,v])=>{
+    const inf=sprInfo[k];
+    sprBarHTML+=`<div class="value-item">
+      <div class="value-color" style="background:${inf.color}"></div>
+      <div class="value-name">${inf.name}</div>
+      <div class="value-bar-track"><div class="value-bar-fill" style="background:${inf.color};width:0%" data-target="${v}%"></div></div>
+      <div class="value-score-text">${v}%</div>
+    </div>`;
+  });
+  sprBarHTML+='</div>';
+  document.getElementById('sprangerResults').innerHTML=sprBarHTML;
+
+  /* SPRANGER DETAIL */
+  const sprDetailData={
+    T:{desc:`O valor <strong>Teórico</strong> representa sua necessidade de compreender o mundo em profundidade. Você é movido pela curiosidade intelectual, pelo prazer da descoberta e pela satisfação de encontrar a verdade por trás das aparências. Para você, conhecimento tem valor em si mesmo — não apenas como meio para um fim. Você se realiza em ambientes que estimulam a aprendizagem contínua e onde pode mergulhar em assuntos com profundidade. Cursos, livros, pesquisa e debates intelectuais te energizam de uma forma que outras pessoas não conseguem compreender completamente.`},
+    E:{desc:`O valor <strong>Econômico</strong> representa sua orientação para retorno, eficiência e resultados práticos. Você enxerga o mundo através da lente do ROI — não necessariamente no sentido financeiro estreito, mas no sentido mais amplo: o que invisto, o que retorna? Você toma decisões com base em custo-benefício, valoriza produtividade e sente insatisfação quando recursos (tempo, dinheiro, energia) são desperdiçados. Para você, sucesso é mensurável e visível — e isso é uma força enorme em ambientes competitivos.`},
+    Es:{desc:`O valor <strong>Estético</strong> representa sua sensibilidade à beleza, harmonia e expressão. Você percebe o mundo de forma sensorial e qualitativa — a estética de um ambiente afeta seu estado emocional, a forma como uma ideia é apresentada importa tanto quanto o conteúdo, e você sente desconforto físico em espaços ou situações que são feios, caóticos ou desarmônicos. Para você, fazer bem feito e bonito não é luxo — é necessidade funcional.`},
+    S:{desc:`O valor <strong>Social</strong> representa sua motivação de contribuir para o bem-estar das pessoas. Para você, a maior realização vem de saber que fez diferença na vida de alguém — não pelo reconhecimento, mas pelo impacto real. Você investe em pessoas de forma genuína e sente uma satisfação profunda quando ajuda alguém a crescer, superar um desafio ou se sentir melhor. Ambientes onde há indiferença ao sofrimento alheio te perturbam profundamente.`},
+    P:{desc:`O valor <strong>Político</strong> (no sentido amplo de Spranger, não partidário) representa sua orientação para liderança, influência e impacto. Você é movido pela possibilidade de fazer as coisas acontecerem em grande escala — de mover pessoas, tomar decisões que importam, e deixar uma marca no sistema onde atua. Você não busca poder pelo poder — mas precisa de autonomia e influência para se sentir realizado. Ambientes hierárquicos rígidos onde você não tem voz te limitam.`},
+    R:{desc:`O valor <strong>Religioso</strong> (no sentido mais amplo de Spranger, incluindo espiritualidade, filosofia e propósito) representa sua busca por significado transcendente. Você não se satisfaz com realizações materiais ou intelectuais isoladas — você precisa que suas ações façam parte de algo maior. Seja através da espiritualidade formal, de uma filosofia de vida, ou de um propósito humanitário, você busca conexão com algo que ultrapassa o ego e o imediato.`}
+  };
+  let sprDetHTML='';
+  sortedSprFull.forEach(([k,v],i)=>{
+    const inf=sprInfo[k]; const det=sprDetailData[k];
+    const opacity=i<3?'1':'0.7';
+    sprDetHTML+=`<div class="value-detail-card" style="border-left-color:${inf.color};opacity:${opacity}">
+      <div class="value-detail-header">
+        <div class="value-detail-rank" style="background:${inf.color}">${i+1}</div>
+        <div class="value-detail-name">${inf.name}</div>
+        <div class="value-detail-score">${v}%</div>
+      </div>
+      <div class="value-detail-text">${det.desc}</div>
+    </div>`;
+  });
+  document.getElementById('sprangerDetail').innerHTML=sprDetHTML;
+
+  /* SPRANGER NARRATIVE */
+  const topValName=sprInfo[topVal].name;
+  const topVal2=sortedSprFull[1]?.[0];
+  const top2Name=topVal2?sprInfo[topVal2].name:'';
+  document.getElementById('sprangerNarrative').innerHTML=`
+    <p>Seu valor dominante é <strong>${topValName}</strong> — e isso não é apenas uma preferência superficial. É a <strong>lente através da qual você interpreta o sentido da sua vida</strong>. Quando suas atividades diárias estão alinhadas com este valor, você sente fluir, energia e propósito. Quando não estão, você se sente vazio — mesmo que tudo "esteja bem" por fora.</p>
+    <p>Em segundo lugar está o valor <strong>${top2Name}</strong>, que funciona como amplificador do primeiro. Esta combinação cria uma motivação profunda específica: você se realiza quando ${topVal==='T'&&topVal2==='P'?'lidera a geração e aplicação de conhecimento' : topVal==='S'&&topVal2==='R'?'serve com propósito espiritual e transcendente' : topVal==='E'&&topVal2==='P'?'cria resultados e tem poder de decisão' : 'sua área dominante encontra sua área secundária em harmonia'}. Quando estas forças se encontram, você está no seu estado mais poderoso.</p>
+    <p>Entender esta hierarquia te ajuda a tomar decisões de carreira mais inteligentes. <strong>Não aceite posições que violam seus 2 valores principais</strong> — não importa o salário. Valores ignorados se manifestam como insatisfação crônica, burnout silencioso, ou a sensação persistente de que "algo está errado" mesmo quando "deveria estar tudo bem".</p>`;
+
+  document.getElementById('sprangerConflicts').innerHTML=`
+    <p>O maior conflito de valores que você pode enfrentar é entre <strong>${topValName}</strong> e pressões externas que exigem comportamentos contrários. Por exemplo, se seu valor dominante é Social, trabalhar em ambientes excessivamente competitivos e individualistas será cronicamente desgastante — mesmo que você seja bem-sucedido por fora.</p>
+    <p>Outro conflito comum ocorre quando pessoas próximas têm hierarquias de valores muito diferentes da sua. Alguém com valor Econômico alto pode ver suas prioridades ${topVal==='S'?'sociais e altruístas':'estéticas ou teóricas'} como impraticáveis. Alguém com valor ${topVal==='R'?'Econômico ou Político':'Religioso'} alto pode não compreender o que te motiva. <strong>Reconhecer estas diferenças como diferenças de valor — não de caráter — é a chave para relacionamentos mais saudáveis e menos julgamentos.</strong></p>`;
+
+  /* ══════════════════ LOVE LANGUAGES RENDER ══════════════════ */
+  const loveInfoFull={
+    W:{name:'Palavras de Afirmação',icon:'◇',color:'#e84393',rank:0,pct:0},
+    A:{name:'Atos de Serviço',icon:'◈',color:'#ff6b35',rank:0,pct:0},
+    G:{name:'Presentes',icon:'◆',color:'#c9a96e',rank:0,pct:0},
+    T:{name:'Tempo de Qualidade',icon:'◉',color:'#00bcd4',rank:0,pct:0},
+    P:{name:'Toque Físico',icon:'♡',color:'#7c4dff',rank:0,pct:0}
+  };
+  sortedLove.forEach(([k,v],i)=>{loveInfoFull[k].rank=i+1;loveInfoFull[k].pct=v;});
+
+  let loveCardsHTML='';
+  sortedLove.forEach(([k,v])=>{
+    const inf=loveInfoFull[k];
+    const circ=2*Math.PI*24; const dash=(v/100)*circ;
+    loveCardsHTML+=`<div class="love-card">
+      <div class="love-icon" style="color:${inf.color}">${inf.icon}</div>
+      <div class="love-name">${inf.name}</div>
+      <div class="love-ring">
+        <svg width="60" height="60" viewBox="0 0 60 60">
+          <circle cx="30" cy="30" r="24" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="4"/>
+          <circle cx="30" cy="30" r="24" fill="none" stroke="${inf.color}" stroke-width="4"
+            stroke-dasharray="${dash.toFixed(1)} ${circ.toFixed(1)}" stroke-linecap="round"/>
+        </svg>
+        <div class="love-ring-val" style="color:${inf.color}">${v}%</div>
+      </div>
+      <div class="love-desc" style="font-size:11px;color:var(--muted);text-align:center;line-height:1.5">${inf.rank === 1 ? 'Linguagem primária' : inf.rank === 2 ? 'Linguagem secundária' : 'Linguagem complementar'}</div>
+    </div>`;
+  });
+  document.getElementById('loveResults').innerHTML=loveCardsHTML;
+
+  /* LOVE PRIMARY */
+  const lovePrimaryData={
+    W:`<p>Sua linguagem primária é <strong>Palavras de Afirmação</strong>. Isso significa que elogios sinceros, encorajamentos genuínos e expressões verbais de apreciação têm um impacto emocional profundo em você — muito além do que a maioria das pessoas imagina. Uma crítica mal colocada pode ecoar por dias. Um elogio genuíno pode transformar sua semana inteira.</p>
+    <p>Para você, as palavras não são apenas palavras — são <strong>provas de amor, respeito e valor</strong>. Quando alguém se esforça para expressar verbalmente o que sente por você, o que admira em você, ou como você fez diferença, isso preenche seu "tanque emocional" de uma forma que nenhuma ação ou presente consegue replicar.</p>
+    <p>É importante reconhecer que você provavelmente também <strong>tende a expressar amor dessa forma</strong> — através de palavras, elogios e incentivos. Mas atenção: nem todos têm esta linguagem. Alguém com linguagem de Atos de Serviço pode preferir que você ajude a limpar a casa do que que você diga "você é incrível".</p>`,
+    A:`<p>Sua linguagem primária é <strong>Atos de Serviço</strong>. Para você, amor se prova na ação. Quando alguém faz algo por você — especialmente sem ser pedido — você sente isso como uma expressão poderosa de cuidado e comprometimento. É o café que alguém prepara antes de você acordar, a tarefa que alguém resolve enquanto você está sobrecarregado, o compromisso que alguém cumpre porque prometeu.</p>
+    <p>Você provavelmente sente frustração profunda quando pessoas prometem ajudar e não ajudam, ou quando percebe que está sempre sendo o que "faz" enquanto outros apenas "falam". Para você, <strong>palavras sem ação são vazias</strong> — o que importa é o comportamento concreto.</p>
+    <p>Como você expressa amor da mesma forma, você tende a ser extremamente prestativo — às vezes se sobrecarregando por querer ajudar a todos. Aprender a pedir ajuda quando precisa é um dos seus maiores desafios — pois você associa profundamente o cuidado com o ato de fazer.</p>`,
+    G:`<p>Sua linguagem primária é <strong>Presentes</strong> — e é importante entender que isso não tem relação com materialismo. Para você, um presente é um símbolo tangível de que alguém <strong>pensou em você</strong>, se lembrou de você, dedicou atenção e intenção à sua existência. Não é o custo que importa — é o significado por trás do gesto.</p>
+    <p>Uma lembrança trazida de uma viagem, um livro que a pessoa viu e pensou "isso é a cara dele/dela", uma flor colhida sem motivo especial — esses gestos preenchem você de uma forma que outros acham difícil de compreender. O oposto — ser esquecido em datas importantes, não receber nenhum gesto concreto de atenção — pode te fazer sentir invisível e desconsiderado.</p>
+    <p>Se esta é sua linguagem, você provavelmente também gosta muito de presentear. Você é do tipo que encontra presentes perfeitos para as pessoas certas, porque pensa nelas com genuína atenção. Compartilhe com as pessoas próximas como isso importa para você — muitas pessoas não percebem o peso emocional que um simples gesto tem para quem tem esta linguagem.</p>`,
+    T:`<p>Sua linguagem primária é <strong>Tempo de Qualidade</strong>. Para você, a maior prova de amor que alguém pode oferecer é a sua <strong>presença total e indivisa</strong>. Não é estar fisicamente no mesmo ambiente — é estar verdadeiramente presente, com atenção plena, sem o celular na mão, sem distrações, sem pressa para ir embora.</p>
+    <p>Uma conversa profunda de duas horas vale mais para você do que semanas de mensagens casuais. Uma saída juntos onde a pessoa está mentalmente em outro lugar te deixa mais solitário do que ter ficado em casa. O tempo de qualidade não é sobre quantidade de horas — é sobre a qualidade da conexão dentro dessas horas.</p>
+    <p>Você provavelmente sente frustração quando pessoas que ama estão fisicamente presentes mas emocionalmente ausentes — no celular, falando de outros assuntos, com pressa. Para você, atenção dividida é quase o mesmo que ausência. Comunique isso com clareza — a maioria das pessoas simplesmente não percebe o quanto sua presença plena importa para você.</p>`,
+    P:`<p>Sua linguagem primária é <strong>Toque Físico</strong>. Para você, contato físico é uma das formas mais diretas e poderosas de comunicar amor, segurança e conexão. Isso inclui abraços, toque no ombro, aperto de mão firme, sentar próximo, gestos de afeto físico — qualquer forma de contato que comunique "estou aqui, você importa".</p>
+    <p>Ambientes onde o toque físico é escasso ou onde as pessoas são emocionalmente distantes podem fazer você se sentir profundamente desconectado — mesmo que existam outras formas de amor sendo expressas. Em momentos de crise, um abraço longo pode te reconectar mais do que qualquer palavra ou ação.</p>
+    <p>Importante: esta linguagem não tem relação com sexualidade — ela se manifesta igualmente em amizades, relações familiares e ambiente profissional. Um aperto de mão firme, um toque no ombro em um momento difícil, a proximidade física em uma conversa — tudo isso comunica presença e cuidado para você de forma que palavras sozinhas não conseguem.</p>`
+  };
+  document.getElementById('lovePrimary').innerHTML=lovePrimaryData[topLove];
+
+  /* LOVE ACTIONS */
+  const loveActData={
+    W:{rec:['Diga "eu te amo/admiro" em palavras — não apenas com ações','Elogie especificamente, não genericamente ("você foi incrível naquele momento X")','Escreva bilhetes, mensagens ou cartas de apreciação','Incentive verbalmente em momentos de dúvida e desafio'],give:['Expresse verbalmente o que sente — não assuma que a pessoa sabe','Elogie em público quando a ocasião for apropriada','Use palavras de encorajamento antes de críticas construtivas','Celebre vitórias com palavras calorosas e específicas']},
+    A:{rec:['Peça ajuda em tarefas concretas sem esperar que a pessoa leia sua mente','Valorize quando alguém faz algo por você — diga que notou e importou','Reconheça os atos de serviço como gestos de amor, não obrigação','Comunique o que te alivia mais — prioridades práticas'],give:['Antecipe necessidades e aja antes de ser pedido','Cumpra o que promete — sua palavra tem peso enorme','Ofereça ajuda concreta, não apenas "se precisar me chama"','Demonstre cuidado por meio de ações pequenas e consistentes']},
+    G:{rec:['Comunique datas importantes para você — as pessoas não adivinham','Valorize e mencione presentes recebidos — isso encoraja mais gestos','Explique que o valor é simbólico, não financeiro','Guarde e valorize presentes — isso demonstra que o gesto importou'],give:['Preste atenção ao que a pessoa menciona querer ou precisar','Presenteie sem necessidade de ocasião especial','Escolha com cuidado e personalização — o pensamento é o presente','Traga lembranças de viagens ou experiências compartilhadas']},
+    T:{rec:['Peça momentos de atenção exclusiva sem celular ou distração','Planeje encontros regulares só para vocês dois','Articule que presença plena importa mais que presentes ou palavras','Valorize o silêncio compartilhado — ele também é qualidade'],give:['Desligue o celular em momentos importantes com a pessoa','Faça perguntas genuínas e ouça a resposta de verdade','Priorize tempo juntos mesmo quando a agenda está cheia','Crie rituais regulares de conexão — café, caminhada, conversa']},
+    P:{rec:['Comunique que toque físico é importante para você','Seja explícito sobre o tipo de toque que te conforta','Em momentos difíceis, peça o abraço que precisa — não espere','Valorize e responda positivamente ao toque da outra pessoa'],give:['Inicie toques afetivos — abraços, mão no ombro, apertos','Seja fisicamente presente em momentos de dificuldade','Respeite o nível de conforto da outra pessoa com toque','Pequenos gestos físicos constantes valem mais que grandes gestos ocasionais']}
+  };
+  const lad=loveActData[topLove];
+  document.getElementById('loveActions').innerHTML=`
+    <div class="love-action-card"><div class="love-action-title">Como pedir o que precisa</div>${lad.rec.map(x=>`<div class="love-action-item">${x}</div>`).join('')}</div>
+    <div class="love-action-card"><div class="love-action-title">Como expressar para os outros</div>${lad.give.map(x=>`<div class="love-action-item">${x}</div>`).join('')}</div>
+  `;
+
+  /* LOVE WHEN MISSED */
+  const loveWhenData={
+    W:`<p>Quando sua linguagem não é falada, você começa a questionar se realmente importa para as pessoas. <strong>A ausência de palavras de afirmação cria um vácuo emocional</strong> que você preenche com interpretações negativas: "se não disseram nada, é porque não gostaram", "se não elogiaram, é porque acharam ruim". Você pode se tornar excessivamente sensível a críticas ou interpretá-las de forma mais severa do que foram intencionadas.</p>
+    <p>Com o tempo, a ausência de afirmação verbal pode levar à <strong>insegurança crônica nos relacionamentos</strong> — mesmo que a outra pessoa esteja te amando de formas que você não reconhece como amor. Esta é a raiz de muitos desentendimentos: você precisa ouvir, enquanto a outra pessoa acha que mostrar é suficiente.</p>`,
+    A:`<p>Quando sua linguagem não é falada, você começa a sentir que <strong>as palavras são apenas palavras</strong> — e que ninguém realmente se importa o suficiente para agir. A sensação é de ser invisível em suas necessidades práticas, de estar sempre fazendo mais do que recebe, de não poder contar com as pessoas quando realmente precisa.</p>
+    <p>Com o tempo, isso pode gerar <strong>ressentimento silencioso e esgotamento</strong> — especialmente porque você continua servindo enquanto sente que não é servido de volta. Aprender a pedir ajuda explicitamente e a reconhecer outros tipos de amor além das ações é parte do seu crescimento.</p>`,
+    G:`<p>Quando sua linguagem não é falada, você começa a sentir que <strong>não é suficientemente especial ou lembrado</strong>. A ausência de gestos concretos e simbólicos pode ser interpretada como indiferença — mesmo que a pessoa esteja te amando de outras formas. Datas importantes sem reconhecimento podem ferir profundamente.</p>
+    <p>Com o tempo, isso pode gerar a sensação de ser <strong>intercambiável, anônimo, não especial</strong> para as pessoas que ama. Comunicar explicitamente o que estes gestos representam para você é fundamental — a maioria das pessoas simplesmente não percebe o peso emocional que um presente carrega para quem tem esta linguagem.</p>`,
+    T:`<p>Quando sua linguagem não é falada, você se sente <strong>profundamente só mesmo em companhia</strong>. A presença física sem atenção emocional é quase pior do que ausência — porque cria a ilusão de conexão sem a substância. Você pode começar a evitar eventos sociais porque sabe que a qualidade de presença não estará lá.</p>
+    <p>Com o tempo, a ausência de tempo de qualidade pode levar à <strong>desconexão gradual e ao afastamento emocional</strong> — você para de compartilhar coisas importantes porque sente que ninguém está verdadeiramente presente para ouvir. Nomear esta necessidade é o primeiro passo para mudar o padrão.</p>`,
+    P:`<p>Quando sua linguagem não é falada, você pode sentir uma <strong>estranheza e frieza nos relacionamentos</strong> que é difícil de nomear. Sem toque físico consistente, você pode se sentir emocionalmente distante mesmo de pessoas que ama — como se houvesse um vidro entre vocês. Em momentos de crise, a ausência de contato físico pode amplificar a sensação de solidão.</p>
+    <p>Com o tempo, a privação de toque pode afetar seu <strong>bem-estar físico e emocional</strong> de formas que a ciência já comprova — impactando níveis de estresse, sensação de segurança e até imunidade. Reconhecer esta necessidade como legítima — e comunicá-la sem vergonha — é fundamental para seus relacionamentos.</p>`
+  };
+  document.getElementById('loveWhenMissed').innerHTML=loveWhenData[topLove];
+
+  /* LOVE ALL */
+  const loveAllDescriptions={
+    W:{ranks:{1:'Esta é sua linguagem primária. Palavras têm o poder de construir ou destruir seu estado emocional com uma intensidade que surpreende quem não compartilha desta linguagem.',2:'Esta é sua linguagem secundária. Elogios e afirmações verbais te tocam profundamente, mesmo não sendo sua necessidade número um.',3:'Esta linguagem tem peso moderado para você. Você aprecia palavras de encorajamento, mas elas não são seu principal combustível emocional.',4:'Esta linguagem tem impacto mais limitado para você. Você valoriza elogios, mas eles não são o que mais preenche seu "tanque".',5:'Esta é sua linguagem menos dominante. Você não é indiferente a palavras — mas elas têm menos peso emocional do que outras formas de amor.'}},
+    A:{ranks:{1:'Esta é sua linguagem primária. Ações concretas são a forma mais poderosa de alguém demonstrar amor para você. O que as pessoas fazem comunica muito mais do que o que dizem.',2:'Esta é sua linguagem secundária. Você aprecia muito quando alguém age para facilitar sua vida ou demonstrar cuidado por meio de ações.',3:'Esta linguagem tem peso moderado. Você reconhece e valoriza atos de serviço, mas não é sua maior necessidade emocional.',4:'Esta linguagem tem impacto mais limitado. Ações de ajuda são bem-vindas, mas não são o que mais te preenche.',5:'Esta é sua linguagem menos dominante. Você aprecia a ajuda, mas ela não é central para sua experiência de amor.'}},
+    G:{ranks:{1:'Esta é sua linguagem primária. Presentes e lembranças funcionam para você como símbolos tangíveis de amor e consideração — o custo não importa, o pensamento sim.',2:'Esta é sua linguagem secundária. Você toca-se profundamente por gestos e presentes pensados — especialmente quando percebe que a pessoa realmente prestou atenção.',3:'Esta linguagem tem peso moderado. Presentes te agradam e te fazem sentir considerado, mas não são sua principal necessidade.',4:'Esta linguagem tem impacto mais limitado. Você aprecia presentes, mas eles não movem o ponteiro emocional de forma significativa.',5:'Esta é sua linguagem menos dominante. Gestos e presentes são bem-vindos, mas raramente são o que você mais precisa para se sentir amado.'}},
+    T:{ranks:{1:'Esta é sua linguagem primária. Presença plena e atenção exclusiva são o maior presente que alguém pode te dar — e a distração ou ausência emocional te afeta profundamente.',2:'Esta é sua linguagem secundária. Você valoriza muito momentos de qualidade compartilhados — quando a pessoa está verdadeiramente presente e focada em você.',3:'Esta linguagem tem peso moderado. Você aprecia tempo de qualidade, mas consegue se sentir amado por outros meios também.',4:'Esta linguagem tem impacto mais limitado. Tempo juntos é agradável, mas não é o que mais define sua experiência de amor.',5:'Esta é sua linguagem menos dominante. Você gosta de compartilhar tempo, mas a presença física não é sua maior necessidade emocional.'}},
+    P:{ranks:{1:'Esta é sua linguagem primária. Toque físico é sua maior âncora de segurança, conexão e amor. A ausência de contato físico cria uma sensação de distância que palavras não conseguem compensar.',2:'Esta é sua linguagem secundária. O toque físico tem um impacto significativo no seu bem-estar emocional e na sua sensação de pertencimento.',3:'Esta linguagem tem peso moderado. Toque físico te conforta e conecta, mas você também se sente amado por outros meios.',4:'Esta linguagem tem impacto mais limitado. Você aprecia gestos físicos de afeto, mas não são o seu combustível emocional principal.',5:'Esta é sua linguagem menos dominante. Você não é avesso ao toque, mas raramente é o que mais impacta sua experiência de amor.'}}
+  };
+  let loveAllHTML='';
+  sortedLove.forEach(([k,v],i)=>{
+    const inf=loveInfoFull[k];
+    const rankDesc=loveAllDescriptions[k]?.ranks?.[i+1]||'Esta linguagem faz parte do seu perfil afetivo.';
+    loveAllHTML+=`<div class="love-full-card">
+      <div class="love-full-icon-wrap">
+        <div class="love-full-icon" style="color:${inf.color}">${inf.icon}</div>
+        <div class="love-full-pct" style="color:${inf.color}">${v}%</div>
+      </div>
+      <div class="love-full-content">
+        <div class="love-full-name">${inf.name}</div>
+        <div class="love-full-rank">#${i+1} na sua hierarquia</div>
+        <div class="love-full-text">${rankDesc}</div>
+      </div>
+    </div>`;
+  });
+  document.getElementById('loveNarrative').innerHTML=loveAllHTML;
+
+  /* ══════════════════ INTEGRATED ══════════════════ */
+  document.getElementById('integratedHero').innerHTML=`
+    <div class="integrated-hero-title">${archetypes[domDisc]}</div>
+    <div class="integrated-hero-sub">Perfil DISC ${domDisc} · Tipo Jung ${jungType} · Valor ${valInfo[topVal].name} · Linguagem ${loveInfo[topLove].name}</div>
+    <div class="integrated-tags">
+      <span class="itag" style="color:${discColors[domDisc]};border-color:${discColors[domDisc]}44;background:${discColors[domDisc]}11">DISC ${domDisc} — ${discInfo[domDisc].name}</span>
+      <span class="itag" style="color:#8e44ad;border-color:#8e44ad44;background:#8e44ad11">Jung ${jungType}</span>
+      <span class="itag" style="color:${valInfo[topVal].color};border-color:${valInfo[topVal].color}44;background:${valInfo[topVal].color}11">${valInfo[topVal].name}</span>
+      <span class="itag" style="color:${loveInfo[topLove].color};border-color:${loveInfo[topLove].color}44;background:${loveInfo[topLove].color}11">${loveInfo[topLove].name}</span>
+    </div>`;
+
+  /* COMBINED PROFILE */
+  document.getElementById('combinedProfile').innerHTML=`
+    <p>Você é <strong>DISC ${domDisc}</strong> — ${discInfo[domDisc].name} — o que significa que sua forma padrão de se mover pelo mundo é ${domDisc==='D'?'com ação, decisão e foco em resultados':domDisc==='I'?'com conexão, entusiasmo e impacto nas pessoas':domDisc==='S'?'com consistência, cuidado e comprometimento':' com análise, precisão e busca pela excelência'}. Este é seu modo operacional natural — o que você faz quando não está pensando sobre como se comportar.</p>
+    <p>Seu tipo Jungiano <strong>${jungType}</strong> adiciona uma camada de como você processa o mundo internamente: você é ${jung.EI.letter==='I'?'introvertido — recarrega em silêncio e profundidade':'extrovertido — recarrega em contato e estímulo'}, ${jung.SN.letter==='N'?'intuitivo — pensa em possibilidades e conexões':'sensorial — confia em fatos e experiências concretas'}, toma decisões com base em ${jung.TF.letter==='T'?'lógica e objetividade':'valores e impacto humano'} e prefere viver de forma ${jung.JP.letter==='J'?'estruturada e planejada':'flexível e adaptativa'}.</p>
+    <p>Seu valor dominante de <strong>${topValName}</strong> (Spranger) revela o motor mais profundo das suas escolhas — o que te faz sentir realizado ou vazio no longo prazo. E sua linguagem do amor primária de <strong>${loveInfo[topLove].name}</strong> (Chapman) explica como você naturalmente dá e precisa receber cuidado nos seus relacionamentos.</p>
+    <p>A integração dessas quatro dimensões cria um mapa único de quem você é — não um rótulo definitivo, mas uma <strong>bússola para decisões mais conscientes, relacionamentos mais profundos e uma vida mais alinhada com quem você realmente é</strong>.</p>`;
+
+  /* INTEGRATED SW */
+  let swIntHTML=`<div class="sw-card strong"><div class="sw-title">Suas Maiores Forças</div>`;
+  sw.s.forEach(x=>{swIntHTML+=`<div class="sw-item">${x}</div>`;});
+  swIntHTML+=`</div><div class="sw-card caution"><div class="sw-title">Seus Maiores Desafios</div>`;
+  sw.c.forEach(x=>{swIntHTML+=`<div class="sw-item">${x}</div>`;});
+  swIntHTML+=`</div>`;
+  document.getElementById('swGrid').innerHTML=swIntHTML;
+
+  /* CAREER */
+  const careerData={
+    D:`<p>Seu perfil aponta para funções onde você tem <strong>autonomia, impacto e desafios tangíveis</strong>. Você prospera como empreendedor, executivo, gestor de projetos, líder de vendas ou qualquer posição onde os resultados são mensuráveis e a pressão é alta. Você não funciona bem sob microgestão — e qualquer ambiente que não te deixe decidir e agir vai te frustrar e limitar.</p>
+    <p>Com seu tipo Jung <strong>${jungType}</strong> e valor <strong>${topValName}</strong>, você se destaca especialmente em ${jung.SN.letter==='N'?'funções estratégicas que combinam visão e execução':'funções operacionais que combinam planejamento e entrega'}. O ambiente ideal para você tem <strong>metas claras, autonomia real, reconhecimento por performance e espaço para inovar</strong> dentro de uma estrutura que respeita sua inteligência.</p>`,
+    I:`<p>Seu perfil aponta para funções onde você pode <strong>conectar, comunicar e inspirar</strong>. Você prospera em vendas, marketing, RH, treinamento, liderança de pessoas, relações públicas ou qualquer papel onde construir pontes entre pessoas e ideias é central. Você murcha em trabalhos isolados, repetitivos ou sem contato humano.</p>
+    <p>Com seu tipo Jung <strong>${jungType}</strong> e valor <strong>${topValName}</strong>, você brilha em ${jung.SN.letter==='N'?'inovação e criatividade comunicativa — marketing, branding, conteúdo estratégico':'execução de comunicação com impacto prático e mensurável'}. O ambiente ideal tem <strong>variedade, reconhecimento, liberdade criativa e muita interação humana</strong>.</p>`,
+    S:`<p>Seu perfil aponta para funções onde você pode <strong>sustentar, cuidar e desenvolver</strong>. Você prospera em gestão de pessoas, psicologia organizacional, educação, saúde, suporte consultivo, coordenação de equipes ou qualquer papel onde construir relacionamentos de confiança é central. Você murcha em ambientes excessivamente competitivos e individualistas.</p>
+    <p>Com seu tipo Jung <strong>${jungType}</strong> e valor <strong>${topValName}</strong>, você tem potencial excepcional em ${topVal==='S'?'desenvolvimento humano e organizacional — coaching, RH estratégico, liderança servidora':'funções que combinam cuidado com estrutura e consistência'}. O ambiente ideal tem <strong>clareza de propósito, relações genuínas e missão que vai além do lucro</strong>.</p>`,
+    C:`<p>Seu perfil aponta para funções onde você pode <strong>analisar, construir sistemas e garantir qualidade</strong>. Você prospera em finanças, tecnologia, ciência, engenharia, auditoria, pesquisa, jurídico, planejamento estratégico ou qualquer papel onde a excelência técnica é valorizada e onde erros têm consequências reais. Você se frustra em ambientes caóticos ou onde padrões são ignorados.</p>
+    <p>Com seu tipo Jung <strong>${jungType}</strong> e valor <strong>${topValName}</strong>, você tem potencial excepcional em ${topVal==='T'?'pesquisa, inovação intelectual e desenvolvimento de conhecimento aplicado':'funções que combinam rigor técnico com impacto prático e mensurável'}. O ambiente ideal tem <strong>autonomia intelectual, padrões claros, respeito pela sua expertise e espaço para fazer bem feito</strong>.</p>`
+  };
+  document.getElementById('careerBlock').innerHTML=careerData[domDisc];
+
+  /* LEADERSHIP */
+  const leaderData={
+    D:`<p>Você lidera pela <strong>força da visão e da execução</strong>. Seu estilo de liderança é direto, orientado a resultados e inspirado pela competência — você exige o mesmo padrão que você mesmo entrega. Você é o tipo de líder que move projetos parados, que toma a decisão difícil quando ninguém quer, que simplifica o complexo e foca o time no que realmente importa.</p>
+    <p>Seu maior risco como líder: <strong>a tendência de atropelar pessoas na busca por resultados</strong>. A velocidade é uma virtude — mas sem empatia calibrada, ela cria equipes que entregam por medo, não por comprometimento. Os melhores líderes de alta performance aprendem a desacelerar para escutar, mesmo quando parece ineficiente no curto prazo.</p>`,
+    I:`<p>Você lidera pela <strong>força da conexão e do entusiasmo</strong>. Seu estilo de liderança é inspiracional, colaborativo e energizante — você faz as pessoas acreditarem na visão porque você acredita de verdade. Você é o tipo de líder que cria cultura, que deixa as pessoas querendo voltar no dia seguinte, que sabe o nome dos filhos dos seus liderados.</p>
+    <p>Seu maior risco como líder: <strong>evitar conversas difíceis e postergar decisões impopulares</strong>. Líderes Influentes tendem a priorizar harmonia — e isso pode fazer com que problemas sérios se acumulem sem serem confrontados. Desenvolver a coragem de ter conversas diretas é o que separa o líder adorado do líder respeitado.</p>`,
+    S:`<p>Você lidera pela <strong>força da confiança e da consistência</strong>. Seu estilo de liderança é suportivo, inclusivo e sustentável — você cria os ambientes onde as pessoas se sentem seguras para tomar riscos, errar e crescer. Você é o tipo de líder que mantém a calma quando todos estão em pânico, que não abandona ninguém nas crises.</p>
+    <p>Seu maior risco como líder: <strong>a dificuldade de impor limites e tomar decisões que desagradam</strong>. Líderes Estáveis frequentemente carregam o peso do grupo por muito tempo antes de pedir ajuda ou reconhecer que algo não funciona. Desenvolver a assertividade proativa — posicionar-se antes do acúmulo — é sua maior alavanca de crescimento.</p>`,
+    C:`<p>Você lidera pela <strong>força da competência e do padrão</strong>. Seu estilo de liderança é técnico, criterioso e baseado na excelência — você estabelece um padrão de qualidade que eleva toda a equipe. Você é o tipo de líder que não aprova o que não está bom, que identifica o problema antes que vire crise, que sabe exatamente por que cada processo existe.</p>
+    <p>Seu maior risco como líder: <strong>o perfeccionismo que paralisa e a comunicação que distancia</strong>. Líderes Conformes podem criar equipes excelentes mas tensas — onde as pessoas têm medo de errar. Aprender a separar o padrão do processo (que pode ser alto) da relação com as pessoas (que precisa de segurança psicológica) é o maior salto que você pode dar como líder.</p>`
+  };
+  document.getElementById('leadershipBlock').innerHTML=leaderData[domDisc];
+
+  /* RELATIONSHIPS */
+  document.getElementById('relationshipsBlock').innerHTML=`
+    <p>Nos relacionamentos, você é <strong>${domDisc==='D'?'intenso, comprometido e às vezes difícil de alcançar emocionalmente':domDisc==='I'?'caloroso, entusiasmado e profundamente conectado — mas às vezes inapreensível':domDisc==='S'?'profundamente leal, presente e cuidadoso — o tipo de pessoa que as pessoas querem ao lado nas crises':'confiável, consistente e excelente provedor de segurança estrutural — mas às vezes distante emocionalmente'}</strong>. Suas relações mais profundas são com pessoas que entendem e respeitam sua forma de ser — não que tentam mudá-la.</p>
+    <p>Sua linguagem do amor primária (<strong>${loveInfo[topLove].name}</strong>) é o filtro através do qual você tanto expressa quanto recebe amor. Se as pessoas ao seu redor não falam esta linguagem, há um risco real de que ambos estejam amando sem que o amor seja plenamente sentido — um desencontro de linguagens, não de intenções.</p>
+    <p>Seu tipo Jungiano <strong>${jungType}</strong> influencia diretamente como você processa conflitos: você tende a ${jung.TF.letter==='T'?'priorizar lógica e objetividade — o que pode parecer frio para parceiros mais sentimentais':'priorizar harmonia e impacto emocional — o que pode parecer evitação para parceiros mais diretos'}. Reconhecer este padrão é o primeiro passo para navigá-lo com mais consciência.</p>
+    <p>Seu maior gift relacional e seu maior desafio estão no mesmo lugar: <strong>você ama do jeito que é</strong> — o que é autêntico e poderoso, mas que exige que você aprenda a também amar do jeito que o outro precisa receber. Este é o trabalho mais profundo de qualquer relacionamento.</p>`;
+
+  /* RECOMMENDATIONS */
+  const recs=[
+    {title:'Autoconhecimento — aprofunde este mapa',text:`Este relatório é um ponto de partida. Para ir mais fundo, considere fazer um processo de coaching individual, grupos de desenvolvimento ou terapia com foco em identidade e comportamento. O autoconhecimento não é um destino — é um processo contínuo. Com seu perfil ${domDisc} e tipo ${jungType}, você se beneficia especialmente de ${jung.EI.letter==='I'?'reflexão estruturada, journaling e espaços de aprendizado profundo':'discussões em grupo, mentoria e ambientes de aprendizado dialógico'}.`},
+    {title:'Comunicação — ajuste ao perfil dos outros',text:`Aprenda a reconhecer o perfil DISC de quem está ao seu redor. Quando você fala com um C, seja preciso e baseado em dados. Com um S, desacelere e pergunte como a pessoa está. Com um I, deixe espaço para entusiasmo. Com um D, seja direto e vá ao ponto. Esta flexibilidade não é falsidade — é inteligência relacional.`},
+    {title:`Linguagem do Amor — pratique o diálogo afetivo`,text:`Tenha uma conversa com as pessoas mais próximas de você sobre linguagens do amor. Pergunte: "Como você prefere receber carinho e reconhecimento?" Compartilhe a sua. Este diálogo transforma relacionamentos — profissionais e pessoais. Você pode surpreender-se descobrindo que pequenas mudanças na forma de expressar cuidado criam um impacto enorme.`},
+    {title:`Valores — alinhe carreira e vida com seus motivadores`,text:`Revise seus compromissos atuais à luz da sua hierarquia de valores de Spranger. O que está alinhado com seu valor de ${topValName}? O que está em desacordo? Pequenos realinhamentos — mesmo dentro da mesma função ou empresa — podem transformar sua experiência de significado e energia no trabalho.`},
+    {title:`Desenvolvimento — trabalhe seus pontos cegos`,text:`Seu maior ponto cego como perfil ${domDisc} é ${domDisc==='D'?'a empatia e a paciência com processos humanos':domDisc==='I'?'a consistência e o follow-through em compromissos':domDisc==='S'?'a assertividade e o posicionamento proativo':'a flexibilidade e a tolerância à imperfeição e ambiguidade'}. Dedicar energia consciente a este ponto não é fraqueza — é o trabalho que separa quem você é hoje de quem você pode se tornar.`}
+  ];
+  let recHTML='';
+  recs.forEach(r=>{recHTML+=`<div class="rec-item"><div class="rec-title">${r.title}</div><div class="rec-text">${r.text}</div></div>`;});
+  document.getElementById('recBlock').innerHTML=recHTML;
+
+  /* REFLECTION */
+  const reflections=[
+    'Em que momentos da sua vida você se sentiu mais completamente você mesmo? O que havia naqueles contextos que permitia isso?',
+    `Como seu perfil ${domDisc} se manifesta nos seus relacionamentos mais próximos — como uma força e como um desafio?`,
+    `Seu valor dominante (${topValName}) está sendo honrado nas suas escolhas atuais de carreira e estilo de vida? O que precisaria mudar para mais alinhamento?`,
+    `As pessoas com quem você mais convive falam sua linguagem do amor (${loveInfo[topLove].name})? E você está falando a linguagem delas?`,
+    `Se você pudesse dar um conselho para uma versão mais jovem de você — alguém que ainda está descobrindo quem é — o que diria sobre seus pontos fortes e seus pontos cegos?`,
+    `O que este relatório confirmou que você já sabia sobre si mesmo? O que foi novidade ou te surpreendeu?`
+  ];
+  let reflHTML='';
+  reflections.forEach((r,i)=>{reflHTML+=`<div class="reflection-item"><span class="reflection-num">${String(i+1).padStart(2,'0')}</span><span>${r}</span></div>`;});
+  document.getElementById('reflectionBlock').innerHTML=reflHTML;
+
+  /* ANIMATE */
+  setTimeout(()=>{
+    document.querySelectorAll('[data-target]').forEach(el=>{el.style.width=el.getAttribute('data-target');});
+  },200);
+}
+</script>
+</body>
+</html>
